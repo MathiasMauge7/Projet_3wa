@@ -1,13 +1,18 @@
-// import { useState } from "react";
-import "./App.css";
+import "./App.scss";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home/home";
+import Navbar from "./component/Navbar/Navbar";
 
 function App() {
-  // const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>Salut !</div>
-    </>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />}></Route>
+        <Route path="/rendez-vous" element={<rendezVous />}></Route>
+        <Route path="*" element={<p>Page not found</p>}></Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
