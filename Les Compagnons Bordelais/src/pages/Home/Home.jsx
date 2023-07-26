@@ -5,14 +5,23 @@ import "./Home.scss";
 export default function Home() {
   return (
     <div>
-      <video className="video" autoPlay muted>
-        <source src={video} type="video/mp4" />
-      </video>
+      <div>
+        <video className="video" autoPlay muted>
+          <source src={video} type="video/mp4" />
+        </video>
+        <div className="text-video">
+          <h1 className="titleH1">Paw-sitivement élégant</h1>
+          <h3 className="titleH3">Nos services font aboyer de bonheur !</h3>
+        </div>
+      </div>
 
       <section>
         <div className="pad-top sectionContainer">
           <div className="card">
-            <h2>Bienvenue chez Les compagnons bordelais</h2>
+            <h3 className="titleH3">
+              Bienvenue chez <br />
+              <span>Les compagnons bordelais !</span>
+            </h3>
             <p className="marg-top">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit.
               Molestiae iste ipsum labore quo magni unde praesentium atque,
