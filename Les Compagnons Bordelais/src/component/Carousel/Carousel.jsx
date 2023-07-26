@@ -80,33 +80,3 @@ export default function Carousel() {
     </div>
   );
 }
-
-{
-  /* <div className="carousel-card">
-          <img
-            className="carousel-img"
-            src={photoCarouselPromenade}
-            alt="carousel img"
-          />
-          <p>Texte</p>
-          <button>Button</button>
-        </div>
-        <div className="carousel-card">
-          <img
-            className="carousel-img"
-            src={photoCarouselAgility}
-            alt="carousel img"
-          />
-          <p>Texte</p>
-          <button>Button</button>
-        </div>
-        <div className="carousel-card">
-          <img
-            className="carousel-img"
-            src={photoCarouselPromenade2}
-            alt="carousel img"
-          />
-          <p>Texte</p>
-          <button>Button</button>
-        </div> */
-}

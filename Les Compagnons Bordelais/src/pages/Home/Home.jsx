@@ -1,5 +1,6 @@
 import video from "../../../public/video/video-acceuil-1.mp4";
 import Carousel from "../../component/Carousel/Carousel";
+import Footer from "../../component/Footer/Footer";
 import "./Home.scss";
 
 export default function Home() {
@@ -22,24 +23,30 @@ export default function Home() {
               Bienvenue chez <br />
               <span>Les compagnons bordelais !</span>
             </h3>
-            <p className="marg-top">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-              Molestiae iste ipsum labore quo magni unde praesentium atque,
-              sapiente culpa blanditiis dolore, non, ducimus soluta! Fugit sed
-              corporis cum quas sapiente, aperiam reprehenderit similique
-              aliquid officiis voluptas corrupti sint doloremque numquam magni.
-              Vel iusto praesentium magni magnam deserunt iste, ab, vitae quia
-              repudiandae, facere sunt doloremque incidunt? Velit, dolore,
-              similique ullam dolorum sequi deserunt dolor culpa, assumenda nisi
-              recusandae vitae consequatur.
-            </p>
+            <div className="marg-top text-bienvenue">
+              <p>
+                Chez nous, le bonheur de vos adorables compagnons est notre
+                priorité ! Du toilettage stylé aux promenades excitantes, en
+                passant par l'agility délirante, nous mettons tout en œuvre pour
+                chouchouter vos poilus !
+              </p>
+              <p>
+                Notre équipe est passionnée et dévouée, des dog-lovers acharnés
+                ! Vos toutous sont entre de bonnes mains, car nous les aimons
+                comme s'ils étaient les nôtres !
+              </p>
+              <p>
+                Alors, n'hésitez pas à nous contacter pour offrir à vos poilus
+                des moments inoubliables chez Les Compagnons Bordelais ! 🐶💕
+              </p>
+            </div>
           </div>
         </div>
       </section>
-
       <div className="pad-top">
         <Carousel />
       </div>
+      <Footer />
     </div>
   );
 }

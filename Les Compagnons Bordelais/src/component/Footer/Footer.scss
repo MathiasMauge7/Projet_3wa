@@ -1,0 +1,27 @@
+.footer-container {
+  background-color: #2b2540;
+  color: #eceae6;
+  display: flex;
+  text-align: center;
+  padding: 20px 10px;
+  .footer-links {
+    padding-top: 20px;
+    li {
+      padding-bottom: 10px;
+      list-style: none;
+      a {
+        color: #eceae6;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.footer-content {
+  .footer-logo {
+    height: 15vh;
+  }
+  .footer-logo-rs {
+    height: 3vh;
+  }
+}
