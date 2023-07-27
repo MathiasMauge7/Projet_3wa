@@ -1,0 +1,29 @@
+.card {
+  width: 70vw;
+  text-align: center;
+  padding: 0 0 20px;
+  background-color: white;
+  margin: 40px auto;
+  box-shadow: 60px 60px 121px -58px rgba(133, 124, 119, 0.52);
+  .text-container {
+    padding: 20px;
+  }
+}
+
+.card img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.card p {
+  padding: 5px 0;
+}
+
+.card .button {
+  background-color: #a9af37;
+  color: #eceae6;
+  border: none;
+  padding: 10px 20px;
+  // border-radius: 25px;
+  cursor: pointer;
+}

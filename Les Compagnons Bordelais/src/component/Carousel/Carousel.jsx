@@ -2,17 +2,17 @@ import Slider from "react-slick";
 import "./Carousel.scss";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import photoCarouselToilettage from "../../../public/photo-carousel/toilettage.jpg";
+import photoCarouselSpa from "../../../public/photo-carousel/spa.jpg";
 import photoCarouselPromenade from "../../../public/photo-carousel/promenade.jpg";
 import photoCarouselPromenade2 from "../../../public/photo-carousel/promenade2.jpg";
-import photoCarouselAgility from "../../../public/photo-carousel/agility.jpg";
+import photoCarouselFitness from "../../../public/photo-carousel/fitness.jpg";
 
 export default function Carousel() {
   const carouselContent = [
     {
-      photo: photoCarouselToilettage,
+      photo: photoCarouselSpa,
       texte:
-        "Offrez à votre animal de compagnie une séance de toilettage de qualité pour qu'il soit propre, soigné et tout simplement adorable!",
+        "Offrez à votre animal de compagnie une séance dans notre Spa de qualité pour qu'il soit propre, soigné et tout simplement adorable!",
     },
     {
       photo: photoCarouselPromenade,
@@ -25,7 +25,7 @@ export default function Carousel() {
         "Confiez la promenade de votre chien à nos professionnels attentionnés qui lui offriront l'exercice et l'affection dont il a besoin en toute sécurité.",
     },
     {
-      photo: photoCarouselAgility,
+      photo: photoCarouselFitness,
       texte:
         "Initiez votre chien à l'agilité avec nos entraîneurs spécialisés, pour des séances amusantes qui stimuleront son esprit et renforceront votre complicité.",
     },

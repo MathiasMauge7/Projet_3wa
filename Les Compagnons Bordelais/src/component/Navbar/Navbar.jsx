@@ -32,7 +32,6 @@ export default function Navbar() {
     backgroundColor: "#ECEAE6",
     transition: "all 500ms",
     borderBottom: "2px solid #A9AF37",
-    boxShadow: "rgb(236, 234, 230) 0px 6px 15px",
     zIndex: 1,
     opacity: 0.95,
   };

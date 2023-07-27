@@ -32,3 +32,12 @@
   font-size: 2em;
   padding-top: 20px;
 }
+
+.top20vh {
+  position: relative;
+  top: 20vh;
+}
+
+div::-webkit-scrollbar {
+  display: none;
+}

@@ -6,7 +6,7 @@ import "./Home.scss";
 export default function Home() {
   return (
     <div>
-      <div>
+      <section className="height100Vh">
         <video className="video" autoPlay muted>
           <source src={video} type="video/mp4" />
         </video>
@@ -14,11 +14,11 @@ export default function Home() {
           <h1 className="titleH1">Paw-sitivement élégant</h1>
           <h3 className="titleH3">Nos services font aboyer de bonheur !</h3>
         </div>
-      </div>
+      </section>
 
       <section>
         <div className="pad-top sectionContainer">
-          <div className="card">
+          <div className="">
             <h3 className="titleH3">
               Bienvenue chez <br />
               <span>Les compagnons bordelais !</span>
@@ -27,7 +27,7 @@ export default function Home() {
               <p>
                 Chez nous, le bonheur de vos adorables compagnons est notre
                 priorité ! Du toilettage stylé aux promenades excitantes, en
-                passant par l'agility délirante, nous mettons tout en œuvre pour
+                passant par du fitness, nous mettons tout en œuvre pour
                 chouchouter vos poilus !
               </p>
               <p>

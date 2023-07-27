@@ -10,7 +10,7 @@
 }
 
 .text-video {
-  position: absolute;
+  position: relative;
   top: 68vh;
   text-align: center;
   color: #eceae6;
@@ -29,6 +29,6 @@
   margin-top: 8px;
 }
 
-section:nth-child(2) {
-  padding-top: 100vh;
+.height100Vh {
+  height: 100vh;
 }
