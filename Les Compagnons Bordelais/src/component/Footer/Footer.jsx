@@ -17,6 +17,9 @@ export default function Footer() {
             <Link to="/">Accueil</Link>
           </li>
           <li>
+            <Link to="/garderie">Garderie</Link>
+          </li>
+          <li>
             <Link to="/services">Services</Link>
           </li>
           <li>

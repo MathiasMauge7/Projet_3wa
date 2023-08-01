@@ -1,6 +1,7 @@
+import { NavLink } from "react-router-dom";
 import "./Card.scss";
 
-export default function Card({ img, text1, text2, btn }) {
+export default function Card({ img, text1, text2, btn, redirect }) {
   return (
     <div className="card">
       <img className="img" src={img} alt="card img" />
@@ -8,7 +9,12 @@ export default function Card({ img, text1, text2, btn }) {
         <p>{text1}</p>
         <p>{text2}</p>
       </div>
-      <button className="button">{btn}</button>
+
+      <button className="button">
+        <NavLink to={redirect} className="navLink-style">
+          {btn}
+        </NavLink>
+      </button>
     </div>
   );
 }

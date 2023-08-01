@@ -81,6 +81,15 @@ export default function Navbar() {
             <li>
               <NavLink
                 style={checkIsActive}
+                to="/garderie"
+                onClick={handleBurgerStyle}
+              >
+                Garderie
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                style={checkIsActive}
                 to="/services"
                 onClick={handleBurgerStyle}
               >

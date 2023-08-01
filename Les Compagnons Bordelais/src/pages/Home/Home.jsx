@@ -1,6 +1,5 @@
 import video from "../../../public/video/video-acceuil-1.mp4";
 import Carousel from "../../component/Carousel/Carousel";
-import Footer from "../../component/Footer/Footer";
 import "./Home.scss";
 
 export default function Home() {
@@ -46,7 +45,6 @@ export default function Home() {
       <div className="pad-top">
         <Carousel />
       </div>
-      <Footer />
     </div>
   );
 }

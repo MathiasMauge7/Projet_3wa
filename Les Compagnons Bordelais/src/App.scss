@@ -2,6 +2,10 @@
   padding: 1.5em;
 }
 
+.pad {
+  padding: 2em;
+}
+
 .pad-top {
   padding-top: 3em;
 }
@@ -33,11 +37,26 @@
   padding-top: 20px;
 }
 
-.top20vh {
+.container {
   position: relative;
   top: 20vh;
+  margin-bottom: 25vh;
+  overflow-x: clip;
 }
 
 div::-webkit-scrollbar {
   display: none;
+}
+
+.navLink-style {
+  text-decoration: none;
+  color: #eceae6;
+}
+
+.button {
+  background-color: #a9af37;
+  color: #eceae6;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
 }
