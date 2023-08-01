@@ -1,0 +1,17 @@
+.container-bg-text {
+  position: relative;
+  height: 34vh;
+  margin: 2em 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #eceae6;
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    object-fit: cover;
+    z-index: -1;
+  }
+}
