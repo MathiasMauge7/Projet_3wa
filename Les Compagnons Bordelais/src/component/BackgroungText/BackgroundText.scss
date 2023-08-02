@@ -4,8 +4,10 @@
   margin: 2em 0;
   display: flex;
   align-items: center;
-  text-align: center;
-  color: #eceae6;
+  justify-content: center;
+  color: white;
+  filter: brightness(0.9);
+
   img {
     position: absolute;
     top: 0;

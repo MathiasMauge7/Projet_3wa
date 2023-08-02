@@ -5,6 +5,7 @@ import "./fitness.scss";
 import CardTarif from "../../../component/Card/CardTarif";
 import spa from "../../../../public/background/spa.jpg";
 import promenade from "../../../../public/background/promenade.jpg";
+import bgText from "../../../../public/background/bgTextFitness.jpg";
 import PreviousNext from "../../../component/PreviousNext/PreviousNext";
 
 export default function Fitness() {
@@ -39,7 +40,10 @@ export default function Fitness() {
         btn={presentation.btn}
         img={presentation.img}
       />
-      <BackgroundText />
+      <BackgroundText
+        img={bgText}
+        text={"plein de truc je sais pas encore quoi mettre"}
+      />
       <CardTarif
         title={tarif.pack.title}
         price={tarif.pack.price}
@@ -58,7 +62,7 @@ export default function Fitness() {
       <PreviousNext
         img1={spa}
         title1={"Toilettage"}
-        text1={"text"}
+        text1={"Salon de toilettage"}
         click1={"/services/spa"}
         img2={promenade}
         title2={"Balade"}
