@@ -57,10 +57,12 @@ export default function Fitness() {
 
       <PreviousNext
         img1={spa}
-        text1={"Toilettage"}
+        title1={"Toilettage"}
+        text1={"text"}
         click1={"/services/spa"}
         img2={promenade}
-        text2={"Balade"}
+        title2={"Balade"}
+        text2={"text"}
         click2={"/services/promenade"}
       />
     </div>

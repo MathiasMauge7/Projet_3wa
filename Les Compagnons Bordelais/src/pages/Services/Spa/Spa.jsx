@@ -23,10 +23,12 @@ export default function Spa() {
 
       <PreviousNext
         img1={promenade}
-        text1={"Promenade"}
+        title1={"Promenade"}
+        text1={"text"}
         click1={"/services/promenade"}
         img2={fitness}
-        text2={"Fitness"}
+        title2={"Fitness"}
+        text2={"text"}
         click2={"/services/fitness"}
       />
     </div>

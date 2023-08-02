@@ -7,9 +7,11 @@ import "./PreviousNext.scss";
 
 export default function PreviousNext({
   img1,
+  title1,
   text1,
   click1,
   img2,
+  title2,
   text2,
   click2,
 }) {
@@ -20,8 +22,8 @@ export default function PreviousNext({
         onClick={() => (window.location.href = click1)}
       >
         <img src={img1} alt="background" />
-        <h3>{text1}</h3>
-        <p>Précedent</p>
+        <h3>{title1}</h3>
+        <p>{text1}</p>
         <FontAwesomeIcon icon={faCircleLeft} />
       </div>
       <div
@@ -29,8 +31,8 @@ export default function PreviousNext({
         onClick={() => (window.location.href = click2)}
       >
         <img src={img2} alt="background" />
-        <h3>{text2}</h3>
-        <p>Suivant</p>
+        <h3>{title2}</h3>
+        <p>{text2}</p>
         <FontAwesomeIcon icon={faCircleRight} />
       </div>
     </div>

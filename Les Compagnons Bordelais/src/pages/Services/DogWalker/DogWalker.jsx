@@ -22,10 +22,12 @@ export default function DogWalker() {
 
       <PreviousNext
         img1={fitness}
-        text1={"Fitness"}
+        title1={"Fitness"}
+        text1={"text"}
         click1={"/services/fitness"}
         img2={spa}
-        text2={"Spa"}
+        title2={"Spa"}
+        text2={"text"}
         click2={"/services/spa"}
       />
     </div>
