@@ -1,5 +1,8 @@
 import promenade from "../../../../public/png/promenade1.png";
 import Presentation from "../../../component/Presentation/Presentation";
+import fitness from "../../../../public/background/fitness.jpg";
+import spa from "../../../../public/background/spa.jpg";
+import PreviousNext from "../../../component/PreviousNext/PreviousNext";
 
 export default function DogWalker() {
   const presentation = {
@@ -15,6 +18,15 @@ export default function DogWalker() {
         text={presentation.text}
         btn={presentation.btn}
         img={presentation.img}
+      />
+
+      <PreviousNext
+        img1={fitness}
+        text1={"Fitness"}
+        click1={"/services/fitness"}
+        img2={spa}
+        text2={"Spa"}
+        click2={"/services/spa"}
       />
     </div>
   );

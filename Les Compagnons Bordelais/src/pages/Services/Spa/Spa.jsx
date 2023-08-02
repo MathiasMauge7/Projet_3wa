@@ -1,5 +1,9 @@
 import spa from "../../../../public/png/spa.png";
+import fitness from "../../../../public/background/fitness.jpg";
+import promenade from "../../../../public/background/promenade.jpg";
+
 import Presentation from "../../../component/Presentation/Presentation";
+import PreviousNext from "../../../component/PreviousNext/PreviousNext";
 
 export default function Spa() {
   const presentation = {
@@ -15,6 +19,15 @@ export default function Spa() {
         text={presentation.text}
         btn={presentation.btn}
         img={presentation.img}
+      />
+
+      <PreviousNext
+        img1={promenade}
+        text1={"Promenade"}
+        click1={"/services/promenade"}
+        img2={fitness}
+        text2={"Fitness"}
+        click2={"/services/fitness"}
       />
     </div>
   );
