@@ -4,7 +4,7 @@ import "./Home.scss";
 
 export default function Home() {
   return (
-    <div>
+    <div className="noScroll-x">
       <section className="height100Vh">
         <video className="video" autoPlay muted>
           <source src={video} type="video/mp4" />
@@ -16,6 +16,7 @@ export default function Home() {
       </section>
 
       <section>
+        <div className="background"></div>
         <div className="pad-top sectionContainer">
           <div className="">
             <h3 className="titleH3">

@@ -44,6 +44,11 @@
   overflow-x: clip;
 }
 
+.noScroll-x {
+  position: relative;
+  overflow-x: clip;
+}
+
 div::-webkit-scrollbar {
   display: none;
 }

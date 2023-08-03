@@ -6,26 +6,31 @@ import photoCarouselSpa from "../../../public/photo-carousel/spa.jpg";
 import photoCarouselPromenade from "../../../public/photo-carousel/promenade.jpg";
 import photoCarouselPromenade2 from "../../../public/photo-carousel/promenade2.jpg";
 import photoCarouselFitness from "../../../public/photo-carousel/fitness.jpg";
+import { NavLink } from "react-router-dom";
 
 export default function Carousel() {
   const carouselContent = [
     {
       photo: photoCarouselSpa,
+      redirect: "/services/spa",
       texte:
         "Offrez à votre animal de compagnie une séance dans notre Spa de qualité pour qu'il soit propre, soigné et tout simplement adorable!",
     },
     {
       photo: photoCarouselPromenade,
+      redirect: "/services/promenade",
       texte:
         "Confiez la promenade de votre chien à nos professionnels attentionnés qui lui offriront l'exercice et l'affection dont il a besoin en toute sécurité.",
     },
     {
       photo: photoCarouselPromenade2,
+      redirect: "/garderie",
       texte:
         "Confiez la promenade de votre chien à nos professionnels attentionnés qui lui offriront l'exercice et l'affection dont il a besoin en toute sécurité.",
     },
     {
       photo: photoCarouselFitness,
+      redirect: "/services/fitness",
       texte:
         "Initiez votre chien à l'agilité avec nos entraîneurs spécialisés, pour des séances amusantes qui stimuleront son esprit et renforceront votre complicité.",
     },
@@ -73,7 +78,11 @@ export default function Carousel() {
               alt="carousel img"
             />
             <p>{content.texte}</p>
-            <button className="button">INFORMATION</button>
+            <button className="button">
+              <NavLink to={content.redirect} className="navLink-style">
+                Information
+              </NavLink>
+            </button>
           </div>
         ))}
       </Slider>
