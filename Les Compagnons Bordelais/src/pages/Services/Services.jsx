@@ -31,7 +31,7 @@ export default function Services() {
       img: club,
       txt1: "Garderie pour chien",
       txt2: "Formules personnalisés",
-      redirect: "/services/garderie",
+      redirect: "/garderie",
     },
   ];
   const presentation = {

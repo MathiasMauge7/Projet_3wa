@@ -1,3 +1,3 @@
 export default function RendezVous() {
-  return <div className="top20vh">Rendez-vous</div>;
+  return <div className="container">Rendez-vous</div>;
 }
