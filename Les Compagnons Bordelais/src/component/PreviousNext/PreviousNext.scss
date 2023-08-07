@@ -1,6 +1,5 @@
 .p-n-container {
   background-color: #ffff;
-  color: #eceae6;
   display: flex;
   height: auto;
   justify-content: center;
@@ -8,6 +7,8 @@
 }
 
 .card-p-n-container {
+  color: #eceae6;
+  text-decoration: none;
   position: relative;
   display: flex;
   flex-direction: column;

@@ -65,3 +65,10 @@ div::-webkit-scrollbar {
   padding: 10px 20px;
   cursor: pointer;
 }
+
+.error {
+  font-size: 11px;
+  color: red;
+  padding-bottom: 10px;
+  border-right: solid;
+}

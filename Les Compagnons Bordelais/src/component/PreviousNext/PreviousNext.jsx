@@ -4,6 +4,7 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./PreviousNext.scss";
+import { Link, NavLink } from "react-router-dom";
 
 export default function PreviousNext({
   img1,
@@ -17,24 +18,18 @@ export default function PreviousNext({
 }) {
   return (
     <div className="p-n-container">
-      <div
-        className="card-p-n-container"
-        onClick={() => (window.location.href = click1)}
-      >
+      <Link to={click1} className="card-p-n-container">
         <img src={img1} alt="background" />
         <h3>{title1}</h3>
         <p>{text1}</p>
         <FontAwesomeIcon icon={faCircleLeft} />
-      </div>
-      <div
-        className="card-p-n-container"
-        onClick={() => (window.location.href = click2)}
-      >
+      </Link>
+      <Link to={click2} className="card-p-n-container">
         <img src={img2} alt="background" />
         <h3>{title2}</h3>
         <p>{text2}</p>
         <FontAwesomeIcon icon={faCircleRight} />
-      </div>
+      </Link>
     </div>
   );
 }

@@ -3,13 +3,14 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home/home";
 import Navbar from "./component/Navbar/Navbar";
 import Services from "./pages/Services/Services";
-import RendezVous from "./pages/rendez-vous/rendezVous";
 import Contact from "./pages/Contact/Contact";
 import Footer from "./component/Footer/Footer";
 import Fitness from "./pages/Services/Fitness/Fitness";
 import DogWalker from "./pages/Services/DogWalker/DogWalker";
 import Spa from "./pages/Services/Spa/Spa";
 import DogSitter from "./pages/Dog-sitter/DogSitter";
+import SignIn from "./pages/EspaceClient/SignIn";
+import Login from "./pages/EspaceClient/Login";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path="/services/fitness" element={<Fitness />}></Route>
         <Route path="/services/promenade" element={<DogWalker />}></Route>
         <Route path="/services/spa" element={<Spa />}></Route>
-        <Route path="/rendez-vous" element={<RendezVous />}></Route>
+        <Route path="/espace-client/inscription" element={<SignIn />}></Route>
+        <Route path="/espace-client/connexion" element={<Login />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route
           path="*"

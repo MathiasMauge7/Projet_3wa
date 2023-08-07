@@ -99,10 +99,10 @@ export default function Navbar() {
             <li>
               <NavLink
                 style={checkIsActive}
-                to="/rendez-vous"
+                to="/espace-client/inscription"
                 onClick={handleBurgerStyle}
               >
-                Rendez-vous
+                Espace client
               </NavLink>
             </li>
             <li>
