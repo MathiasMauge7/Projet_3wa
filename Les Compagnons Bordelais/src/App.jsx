@@ -12,6 +12,7 @@ import DogSitter from "./pages/Dog-sitter/DogSitter";
 import SignIn from "./pages/EspaceClient/SignIn";
 import Login from "./pages/EspaceClient/Login";
 import Profil from "./pages/EspaceClient/Profil/Profil";
+import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
         <Route path="/espace-client/inscription" element={<SignIn />}></Route>
         <Route path="/espace-client/connexion" element={<Login />}></Route>
         <Route path="/espace-client/profil" element={<Profil />}></Route>
+        <Route
+          path="/espace-client/profil-info"
+          element={<ProfilEdit />}
+        ></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route
           path="*"

@@ -30,10 +30,12 @@
 
 .dog-container {
   display: flex;
+  height: 45vh;
 
   .pp-dog {
     width: 50vw;
     height: 100%;
+    object-fit: cover;
   }
   .dog-content {
     display: flex;

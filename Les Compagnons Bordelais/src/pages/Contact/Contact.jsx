@@ -32,6 +32,7 @@ export default function Contact() {
         <label htmlFor="name" />
         Nom
         <input
+          className="input"
           type="text"
           name="name"
           value={formData.name}
@@ -40,6 +41,7 @@ export default function Contact() {
         <label htmlFor="mail" />
         Mail
         <input
+          className="input"
           type="text"
           name="mail"
           value={formData.mail}
@@ -48,6 +50,7 @@ export default function Contact() {
         <label htmlFor="tel" />
         Téléphone
         <input
+          className="input"
           type="text"
           name="tel"
           value={formData.tel}
@@ -56,6 +59,7 @@ export default function Contact() {
         <label htmlFor="sujet" />
         Sujet
         <input
+          className="input"
           type="text"
           name="sujet"
           value={formData.sujet}
@@ -64,6 +68,7 @@ export default function Contact() {
         <label htmlFor="message" />
         Message
         <textarea
+          className="input"
           type="text"
           name="message"
           value={formData.message}
