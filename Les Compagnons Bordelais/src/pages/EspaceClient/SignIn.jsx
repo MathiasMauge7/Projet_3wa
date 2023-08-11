@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import signIn from "../../../public/background/signin.jpg";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./style.scss";
 
 export default function SignIn() {
@@ -22,7 +23,7 @@ export default function SignIn() {
     setConfirmPassword(event.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = {};
 
@@ -56,9 +57,19 @@ export default function SignIn() {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      // Soumettre le formulaire si tout est valide
-      // Ici, vous pourriez ajouter une logique pour envoyer les données au serveur, etc.
-      console.log("Formulaire soumis avec succès !");
+      try {
+        const response = await axios.post("/api/register", {
+          email,
+          password,
+        });
+        if (response.status === 201) {
+          console.log("Inscription réussie front");
+        } else {
+          console.log(response.data.message);
+        }
+      } catch (error) {
+        console.log("Erreur lors de l'inscription", error);
+      }
     }
   };
 
