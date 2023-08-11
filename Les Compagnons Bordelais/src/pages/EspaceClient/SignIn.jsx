@@ -72,6 +72,7 @@ export default function SignIn() {
         {errors.email && <p className="error">{errors.email}</p>}
         <label htmlFor="email">Adresse e-mail:</label>
         <input
+          className="input"
           type="email"
           id="email"
           value={email}
@@ -81,6 +82,7 @@ export default function SignIn() {
         {errors.password && <p className="error">{errors.password}</p>}
         <label htmlFor="password">Mot de passe:</label>
         <input
+          className="input"
           type="password"
           id="password"
           value={password}
@@ -91,6 +93,7 @@ export default function SignIn() {
         )}
         <label htmlFor="confirmPassword">Confirmer le mot de passe:</label>
         <input
+          className="input"
           type="password"
           id="confirmPassword"
           value={confirmPassword}

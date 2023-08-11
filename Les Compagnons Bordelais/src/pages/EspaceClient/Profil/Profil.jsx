@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 
 export default function Profil() {
   const clientInfos = useSelector((state) => state.client);
+  const clientDogInfos = useSelector((state) => state.dog);
 
   return (
     <div className="container marg-top">
@@ -40,28 +41,28 @@ export default function Profil() {
         </div>
         <div className="dog-content">
           <p>
-            Prénom: <span>Pablo</span>
+            Prénom: <span>{clientDogInfos.lastname}</span>
           </p>
           <p>
-            Date de naissance: <span>21/11/2019</span>
+            Date de naissance: <span>{clientDogInfos.birthDate}</span>
           </p>
           <p>
-            Age: <span>3</span>ans
+            Age: <span>{clientDogInfos.age}</span>ans
           </p>
           <p>
-            Sexe: <span>Mâle</span>
+            Sexe: <span>{clientDogInfos.sex}</span>
           </p>
           <p>
-            Race: <span>Samoyède</span>
+            Race: <span>{clientDogInfos.breed}</span>
           </p>
           <p>
-            Pucé: <span>Oui</span>
+            Tatouage: <span>{clientDogInfos.tatoo}</span>
           </p>
           <p>
-            Vacciné: <span>Oui</span>
+            Puce: <span>{clientDogInfos.microchip}</span>
           </p>
           <p>
-            Traitement médical: <span>Aucun</span>
+            Traitement médical: <span>{clientDogInfos.medical}</span>
           </p>
           <p>
             Particularité à nous spécifier:{" "}

@@ -13,6 +13,7 @@ import SignIn from "./pages/EspaceClient/SignIn";
 import Login from "./pages/EspaceClient/Login";
 import Profil from "./pages/EspaceClient/Profil/Profil";
 import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
+import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
 
 function App() {
   return (
@@ -31,6 +32,10 @@ function App() {
         <Route
           path="/espace-client/profil-info"
           element={<ProfilEdit />}
+        ></Route>
+        <Route
+          path="/espace-client/profil-chiens-info"
+          element={<DogProfilEdit />}
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route

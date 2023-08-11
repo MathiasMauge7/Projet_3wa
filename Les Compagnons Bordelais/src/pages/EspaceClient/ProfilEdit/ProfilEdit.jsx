@@ -5,11 +5,17 @@ import "./ProfilEdit.scss";
 
 export default function ProfilEdit() {
   const clientInfos = useSelector((state) => state.client);
+  const [editedClientInfos, setEditedClientInfos] = useState({
+    ...clientInfos,
+  });
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    dispatch(updateClientInfo({ [name]: value }));
+    setEditedClientInfos((prevInfos) => ({
+      ...prevInfos,
+      [name]: value,
+    }));
   };
 
   const handleSave = () => {
@@ -24,7 +30,7 @@ export default function ProfilEdit() {
           className="input"
           type="text"
           name="name"
-          value={clientInfos.name}
+          value={editedClientInfos.name}
           onChange={handleInputChange}
         />
         <label>Prénom:</label>
@@ -32,7 +38,7 @@ export default function ProfilEdit() {
           className="input"
           type="text"
           name="lastname"
-          value={clientInfos.lastname}
+          value={editedClientInfos.lastname}
           onChange={handleInputChange}
         />
         <label>Mail:</label>
@@ -40,7 +46,7 @@ export default function ProfilEdit() {
           className="input"
           type="text"
           name="mail"
-          value={clientInfos.mail}
+          value={editedClientInfos.mail}
           onChange={handleInputChange}
         />
         <label>Adresse postal:</label>
@@ -48,7 +54,7 @@ export default function ProfilEdit() {
           className="input"
           type="text"
           name="address"
-          value={clientInfos.address}
+          value={editedClientInfos.address}
           onChange={handleInputChange}
         />
         <label>Téléphone:</label>
@@ -56,7 +62,7 @@ export default function ProfilEdit() {
           className="input"
           type="text"
           name="tel"
-          value={clientInfos.tel}
+          value={editedClientInfos.tel}
           onChange={handleInputChange}
         />
         <button onClick={handleSave} className="button">
