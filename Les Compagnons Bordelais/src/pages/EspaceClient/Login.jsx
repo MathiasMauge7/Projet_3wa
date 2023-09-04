@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link } from "react-router-dom";
@@ -47,7 +47,7 @@ export default function Login() {
     <div className="container">
       <BackgroundText text={"Formulaire d'inscription"} img={login} />
       <Link to={"/espace-client/inscription"} className="link pad">
-        Vous n'êtes pas encore inscrit ? Cliquez ici !
+        Vous n &apos êtes pas encore inscrit ? Cliquez ici !
       </Link>
       <form onSubmit={handleSubmit} className="contact-form pad">
         {errors.email && <p className="error">{errors.email}</p>}

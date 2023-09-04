@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import signIn from "../../../public/background/signin.jpg";
 import { Link } from "react-router-dom";
@@ -65,7 +65,7 @@ export default function SignIn() {
         if (response.status === 201) {
           console.log("Inscription réussie front");
         } else {
-          console.log(response.data.message);
+          console.log(response);
         }
       } catch (error) {
         console.log("Erreur lors de l'inscription", error);
@@ -94,9 +94,9 @@ export default function SignIn() {
         <label htmlFor="password">Mot de passe:</label>
         <input
           className="input"
-          type="password"
+          type="text"
           id="password"
-          value={password}
+          value={password} // attention ! il s'affiche dans l'inspecteur
           onChange={handlePasswordChange}
         />
         {errors.confirmPassword && (
@@ -105,9 +105,9 @@ export default function SignIn() {
         <label htmlFor="confirmPassword">Confirmer le mot de passe:</label>
         <input
           className="input"
-          type="password"
+          type="text"
           id="confirmPassword"
-          value={confirmPassword}
+          value={confirmPassword} // attention ! il s'affiche dans l'inspecteur
           onChange={handleConfirmPasswordChange}
         />
 

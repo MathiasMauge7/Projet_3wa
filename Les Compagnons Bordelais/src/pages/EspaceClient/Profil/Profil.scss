@@ -23,7 +23,7 @@
     padding: 7px 0;
     span {
       color: #2b2540;
-      text-shadow: 1px 0px 15px;
+      font-weight: bold;
     }
   }
 }
@@ -40,7 +40,7 @@
   .dog-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+
     justify-content: space-between;
     margin-left: 7px;
   }
