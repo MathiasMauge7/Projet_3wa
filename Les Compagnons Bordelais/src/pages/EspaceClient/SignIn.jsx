@@ -58,7 +58,7 @@ export default function SignIn() {
       setErrors(validationErrors);
     } else {
       try {
-        const response = await axios.post("/api/register", {
+        const response = await axios.post("http://localhost:5173/register", {
           email,
           password,
         });

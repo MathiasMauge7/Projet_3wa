@@ -2,6 +2,7 @@ import "./Profil.scss";
 import pp from "../../../../public/img/pp.jpg";
 import pdDog from "../../../../public/img/pp-dog.jpg";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 export default function Profil() {
   const clientInfos = useSelector((state) => state.client);
@@ -29,9 +30,9 @@ export default function Profil() {
           <p>
             Téléphone: <span>{clientInfos.tel}</span>
           </p>
-          <p>
-            <i>Modifier mon profil</i>
-          </p>
+          <NavLink to="./info" className="edit-profil">
+            Modifier mon profil
+          </NavLink>
         </div>
       </div>
       <div className="dog-container pad-top ">
@@ -47,7 +48,7 @@ export default function Profil() {
             Date de naissance: <span>{clientDogInfos.birthDate}</span>
           </p>
           <p>
-            Age: <span>{clientDogInfos.age}</span>ans
+            Age: <span>calcul </span>ans
           </p>
           <p>
             Sexe: <span>{clientDogInfos.sex}</span>
@@ -65,12 +66,11 @@ export default function Profil() {
             Traitement médical: <span>{clientDogInfos.medical}</span>
           </p>
           <p>
-            Particularité à nous spécifier:{" "}
-            <span>Oui des trucs mais je sais pas quoi encore.</span>
+            Particularité à nous spécifier: <span>Oui quelques trucs..</span>
           </p>
-          <p>
-            <i>Modifier le profil de Pablo</i>
-          </p>
+          <NavLink to="./chiens-info" className="edit-profil">
+            Modifier le profil de {clientDogInfos.lastname}
+          </NavLink>
         </div>
       </div>
     </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import "./style.scss";
 
 export default function Login() {
@@ -17,7 +18,7 @@ export default function Login() {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = {};
 
@@ -38,8 +39,16 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       // Soumettre le formulaire si tout est valide
-      // Ici, vous pourriez ajouter une logique pour envoyer les données au serveur, etc.
-      console.log("Formulaire soumis avec succès !");
+      try {
+        const response = await axios.post("http://localhost:5173/login", {
+          email,
+          password,
+        });
+
+        console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -47,7 +56,7 @@ export default function Login() {
     <div className="container">
       <BackgroundText text={"Formulaire d'inscription"} img={login} />
       <Link to={"/espace-client/inscription"} className="link pad">
-        Vous n &apos êtes pas encore inscrit ? Cliquez ici !
+        Vous n'êtes pas encore inscrit ? Cliquez ici !
       </Link>
       <form onSubmit={handleSubmit} className="contact-form pad">
         {errors.email && <p className="error">{errors.email}</p>}

@@ -30,11 +30,11 @@ function App() {
         <Route path="/espace-client/connexion" element={<Login />}></Route>
         <Route path="/espace-client/profil" element={<Profil />}></Route>
         <Route
-          path="/espace-client/profil-info"
+          path="/espace-client/profil/info"
           element={<ProfilEdit />}
         ></Route>
         <Route
-          path="/espace-client/profil-chiens-info"
+          path="/espace-client/profil/chiens-info"
           element={<DogProfilEdit />}
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
