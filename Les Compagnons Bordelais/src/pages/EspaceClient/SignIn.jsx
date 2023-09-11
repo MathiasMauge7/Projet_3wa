@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import signIn from "../../../public/background/signin.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./style.scss";
 
@@ -10,6 +10,8 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -58,12 +60,17 @@ export default function SignIn() {
       setErrors(validationErrors);
     } else {
       try {
-        const response = await axios.post("http://localhost:5173/register", {
-          email,
-          password,
-        });
+        console.log("object");
+        const response = await axios.post(
+          "http://127.0.0.1:5173/api/register",
+          {
+            email,
+            password,
+          }
+        );
         if (response.status === 201) {
           console.log("Inscription réussie front");
+          navigate("/espace-client/profil");
         } else {
           console.log(response);
         }

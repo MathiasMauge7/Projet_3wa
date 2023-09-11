@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./style.scss";
 
@@ -9,6 +9,8 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+
+  const navigate = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -38,13 +40,13 @@ export default function Login() {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
     } else {
-      // Soumettre le formulaire si tout est valide
       try {
-        const response = await axios.post("http://localhost:5173/login", {
+        const response = await axios.post("http://127.0.0.1:5173/api/login", {
           email,
           password,
         });
 
+        navigate("/espace-client/profil");
         console.log(response.data);
       } catch (error) {
         console.error(error);
@@ -80,7 +82,7 @@ export default function Login() {
         />
 
         <button type="submit" className="button">
-          INSCRIPTION
+          CONNEXION
         </button>
       </form>
     </div>

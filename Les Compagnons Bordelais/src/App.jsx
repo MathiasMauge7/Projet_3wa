@@ -1,5 +1,5 @@
 import "./App.scss";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/home";
 import Navbar from "./component/Navbar/Navbar";
 import Services from "./pages/Services/Services";
@@ -16,6 +16,7 @@ import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
 import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
 
 function App() {
+  const isAuthenticated = false; // cookie de session
   return (
     <BrowserRouter>
       <Navbar />
@@ -28,14 +29,35 @@ function App() {
         <Route path="/services/spa" element={<Spa />}></Route>
         <Route path="/espace-client/inscription" element={<SignIn />}></Route>
         <Route path="/espace-client/connexion" element={<Login />}></Route>
-        <Route path="/espace-client/profil" element={<Profil />}></Route>
+        <Route
+          path="/espace-client/profil"
+          element={
+            isAuthenticated ? (
+              <Profil />
+            ) : (
+              <Navigate to={"/espace-client/connexion"} />
+            )
+          }
+        ></Route>
         <Route
           path="/espace-client/profil/info"
-          element={<ProfilEdit />}
+          element={
+            isAuthenticated ? (
+              <ProfilEdit />
+            ) : (
+              <Navigate to={"/espace-client/connexion"} replace />
+            )
+          }
         ></Route>
         <Route
           path="/espace-client/profil/chiens-info"
-          element={<DogProfilEdit />}
+          element={
+            isAuthenticated ? (
+              <DogProfilEdit />
+            ) : (
+              <Navigate to={"/espace-client/connexion"} replace />
+            )
+          }
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route
