@@ -60,7 +60,6 @@ export default function SignIn() {
       setErrors(validationErrors);
     } else {
       try {
-        console.log("object");
         const response = await axios.post(
           "http://127.0.0.1:5173/api/register",
           {
@@ -70,7 +69,14 @@ export default function SignIn() {
         );
         if (response.status === 201) {
           console.log("Inscription réussie front");
-          navigate("/espace-client/profil");
+          const res = await axios.post("http://127.0.0.1:5173/api/login", {
+            email,
+            password,
+          });
+          if (res.status === 201) {
+            console.log("res.status");
+            navigate("/espace-client/profil");
+          }
         } else {
           console.log(response);
         }

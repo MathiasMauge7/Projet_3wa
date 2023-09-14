@@ -1,3 +1,13 @@
 .client-infos-container {
   height: 87vh;
 }
+
+.radio-container{
+  display: flex;
+  input {
+    margin-left: 20px
+  }
+  label{
+    margin-left: 10px
+  }
+}

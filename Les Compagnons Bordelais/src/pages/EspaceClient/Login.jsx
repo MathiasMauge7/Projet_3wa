@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { createSlice } from "@reduxjs/toolkit";
+import { updateClientInfo } from "../../store/clientSlice";
 import "./style.scss";
 
 export default function Login() {
@@ -41,13 +44,22 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        const response = await axios.post("http://127.0.0.1:5173/api/login", {
-          email,
-          password,
-        });
-
+        const response = await axios.post(
+          "http://127.0.0.1:5173/api/login",
+          {
+            email,
+            password,
+          }
+          // {
+          //   headers: {
+          //     'Authorization'
+          //   }
+          // }
+        );
+        console.log(response);
         navigate("/espace-client/profil");
-        console.log(response.data);
+
+        // console.log(response.data.authToken);
       } catch (error) {
         console.error(error);
       }
@@ -75,7 +87,7 @@ export default function Login() {
         <label htmlFor="password">Mot de passe:</label>
         <input
           className="input"
-          type="password"
+          type="text"
           id="password"
           value={password}
           onChange={handlePasswordChange}

@@ -2,6 +2,8 @@ import { useState } from "react";
 import "./Contact.scss";
 import bgContact from "../../../public/background/bgContact.jpg";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,9 +14,29 @@ export default function Contact() {
     message: "",
   });
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Formulaire soumie: ", formData);
+    console.log(formData);
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:5173/api/formulaire-contact",
+        {
+          name: formData.name,
+          mail: formData.mail,
+          tel: formData.tel,
+          sujet: formData.sujet,
+          message: formData.message,
+        }
+      );
+      if (response.status === 200) {
+        console.log("Formulaire de contact soumie");
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("Erreur lors de l'envoi du formulaire de contact", error);
+    }
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -56,15 +78,19 @@ export default function Contact() {
           value={formData.tel}
           onChange={handleChange}
         />
-        <label htmlFor="sujet" />
-        Sujet
-        <input
+        <label htmlFor="sujet">Sujet :</label>
+        <select
           className="input"
-          type="text"
           name="sujet"
           value={formData.sujet}
           onChange={handleChange}
-        />
+        >
+          <option value="Garderie">Garderie</option>
+          <option value="Promenade">Promenade</option>
+          <option value="Fitness">Fitness</option>
+          <option value="Toilettage">Toilettage</option>
+          <option value="Autre">Autre</option>
+        </select>
         <label htmlFor="message" />
         Message
         <textarea
