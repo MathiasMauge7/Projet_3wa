@@ -44,19 +44,26 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:5173/api/login",
-          {
+        fetch("http://127.0.0.1:5173/api/login", {
+          method: "POST",
+          withCredential: true,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
             email,
             password,
-          }
-          // {
-          //   headers: {
-          //     'Authorization'
-          //   }
-          // }
-        );
-        console.log(response);
+          }),
+        }).then((response) => console.log(response));
+        // const response = await axios.post(
+        //   "http://127.0.0.1:5173/api/login",
+        //   {
+        //     email,
+        //     password,
+        //   }
+
+        // );
+        // console.log(response);
         navigate("/espace-client/profil");
 
         // console.log(response.data.authToken);

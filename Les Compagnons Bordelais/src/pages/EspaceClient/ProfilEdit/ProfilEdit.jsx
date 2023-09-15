@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateClientInfo } from "../../../store/clientSlice";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./ProfilEdit.scss";
 
 export default function ProfilEdit() {
@@ -26,14 +25,17 @@ export default function ProfilEdit() {
     dispatch(updateClientInfo(editedClientInfos));
     console.log(editedClientInfos);
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5173/api/infos-client",
-        {
-          editedClientInfos,
-        }
-      );
+      const response = await fetch("http://127.0.0.1:5173/api/infos-client", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ editedClientInfos }),
+      });
       if (response.status === 200) {
-        dispatch(updateClientInfo(response.data.createdInfosClient));
+        const responseData = await response.json();
+        console.log(responseData);
+        // dispatch(updateClientInfo(responseData.createdInfosClient));
         console.log("modification reussi");
         navigate("/espace-client/profil");
       }
@@ -88,6 +90,11 @@ export default function ProfilEdit() {
             name="tel"
             value={editedClientInfos.tel}
             onChange={handleInputChange}
+          />
+          <input
+            type="hidden"
+            name="clientId"
+            value={editedClientInfos.clientId}
           />
           <button type="submit" className="button">
             MODIFIER

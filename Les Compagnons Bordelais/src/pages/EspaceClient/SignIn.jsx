@@ -3,6 +3,8 @@ import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import signIn from "../../../public/background/signin.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { updateClientId } from "../../store/clientSlice";
+import { useDispatch } from "react-redux";
 import "./style.scss";
 
 export default function SignIn() {
@@ -12,6 +14,11 @@ export default function SignIn() {
   const [errors, setErrors] = useState({});
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const setClientId = (newClientId) => {
+    dispatch(updateClientId(newClientId));
+  };
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -67,6 +74,10 @@ export default function SignIn() {
             password,
           }
         );
+        const newClientId = response.data.clientId;
+        console.log(newClientId);
+        setClientId(newClientId);
+
         if (response.status === 201) {
           console.log("Inscription réussie front");
           const res = await axios.post("http://127.0.0.1:5173/api/login", {
@@ -74,7 +85,6 @@ export default function SignIn() {
             password,
           });
           if (res.status === 201) {
-            console.log("res.status");
             navigate("/espace-client/profil");
           }
         } else {

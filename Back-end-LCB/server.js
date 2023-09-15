@@ -10,7 +10,13 @@ const cookie = require("cookie");
 const PORT = process.env.PORT || 5173;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Remplacez par l'URL de votre application cliente
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // Activer l'envoi de cookies
+  })
+);
 app.use(cookieParser());
 
 // Middleware pour vérifier le JWT lors des requêtes protégées
@@ -102,6 +108,20 @@ const FormulaireContact = mongoose.model(
   FormulaireContactSchema
 );
 
+app.get("/cookie-test", async (req, res) => {
+  const token = jwt.sign({ id: 1, name: "bobby" }, "secretKey");
+
+  const tokenCookie = cookie.serialize("jwtoken", token, {
+    httpOnly: true, // Empêche le JavaScript côté client d'accéder au cookie
+    secure: false, // Utilisez true en production pour activer HTTPS
+    maxAge: 3600, // Durée de validité du cookie en secondes (1 heure)
+    path: "/", // Le chemin du cookie (peut être personnalisé)
+  });
+
+  res.setHeader("Set-Cookie", tokenCookie);
+  res.send("Connecté avec succès");
+});
+
 app.get("/api/users", async (req, res, next) => {
   try {
     const users = await Client.find({});
@@ -111,14 +131,42 @@ app.get("/api/users", async (req, res, next) => {
   }
 });
 
-app.post("/api/infos-client", async (req, res) => {
+// app.post("/api/infos-client", async (req, res) => {
+//   const { editedClientInfos } = req.body;
+//   console.log(editedClientInfos);
+//   try {
+//     const newInfosClient = await InfosClient.create(editedClientInfos);
+//     res.status(200).json({
+//       msg: "Ajout des informations ok",
+//       createdInfosClient: newInfosClient,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json("Erreur serveur");
+//   }
+// });
+
+app.patch("/api/infos-client", async (req, res) => {
   const { editedClientInfos } = req.body;
   console.log(editedClientInfos);
   try {
-    const newInfosClient = await InfosClient.create(editedClientInfos);
+    if (!editedClientInfos.clientId) {
+      return res.status(400).json({ msg: "clientId requis" });
+    }
+
+    const updatedInfosClient = await InfosClient.findByIdAndUpdate(
+      editedClientInfos.clientId,
+      editedClientInfos,
+      { new: true }
+    );
+
+    if (!updatedInfosClient) {
+      return res.status(404).json({ msg: "Client introuvable" });
+    }
+
     res.status(200).json({
-      msg: "Ajout des informations ok",
-      createdInfosClient: newInfosClient,
+      msg: "Mise à jour des informations client réussie",
+      updatedInfosClient,
     });
   } catch (error) {
     console.log(error);
@@ -181,17 +229,31 @@ app.post("/api/register", async (req, res) => {
 
     const addedClientBySave = await newClient.save();
     console.log(addedClientBySave);
+    const clientId = addedClientBySave._id;
 
     await InfosClient.create({
-      client_id: addedClientBySave._id,
+      client_id: clientId,
       name: "",
       lastname: "",
       email: email,
       address: "",
       tel: "",
+      photo: "",
     });
 
-    res.status(201).json({ message: "Inscription réussie" });
+    await InfosDog.create({
+      client_id: clientId,
+      lastname: "",
+      birthDate: "",
+      breed: "",
+      sex: "",
+      tatoo: "",
+      microchip: "",
+      medical: "",
+      img: "",
+    });
+
+    res.status(201).json({ message: "Inscription réussie", clientId });
   } catch (error) {
     console.log(error);
     res
@@ -206,25 +268,35 @@ app.post("/api/login", async (req, res) => {
     const user = await Client.findOne({ email: req.body.email });
     // const authToken = await user.generateAuthTokenAndSaveUser();
     // res.send({ user, authToken });
-
+    console.log(user);
     const passwordCompare = await bcrypt.compare(
       req.body.password,
       user.password
     );
+
     if (passwordCompare) {
       console.log("mdp identique");
 
-      // Créez un JWT et stockez-le dans la session
-      const token = jwt.sign({ id: user._id }, "foo");
-      const tokenCookie = cookie.serialize("token", token, {
-        httpOnly: true,
-        secure: false,
-        maxAge: 3600,
-        path: "/",
+      const token = jwt.sign({ id: user._id }, "secretKey");
+
+      const tokenCookie = cookie.serialize("jwtoken", token, {
+        httpOnly: true, // Empêche le JavaScript côté client d'accéder au cookie
+        secure: false, // Utilisez true en production pour activer HTTPS
+        maxAge: 3600, // Durée de validité du cookie en secondes (1 heure)
+        path: "/", // Le chemin du cookie (peut être personnalisé)
       });
+
+      // Créez un JWT et stockez-le dans la session
+      // const token = jwt.sign({ id: user._id }, "foo");
+      // const tokenCookie = cookie.serialize("token", token, {
+      //   httpOnly: true,
+      //   secure: false,
+      //   maxAge: 3600,
+      //   path: "/",
+      // });
       res.setHeader("Set-Cookie", tokenCookie);
       res.status(201);
-      res.send();
+      res.send("ok");
     } else {
       res
         .status(401)
