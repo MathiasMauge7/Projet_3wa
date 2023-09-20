@@ -6,7 +6,23 @@
 }
 
 svg {
+  margin-top: 20px;
   height: 40px;
   fill: #a9af37;
   object-fit: contain !important;
+}
+
+
+// Media Queries
+
+@media screen and (min-width: 768px){
+  .card-container {
+      width: 84vw;
+      display: flex;
+      margin-left: 8vw;
+  
+      .card {
+        width: 38vw;
+      }
+    }
 }

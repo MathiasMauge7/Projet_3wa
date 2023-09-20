@@ -1,6 +1,6 @@
 import Card from "../../component/Card/Card";
 import fitness from "../../../public/photo-carousel/fitness.jpg";
-import promenade2 from "../../../public/photo-carousel/promenade2.jpg";
+import promenade2 from "../../../public/photo-carousel/promenade.jpg";
 import promenade from "../../../public/png/promenade.png";
 import spa from "../../../public/photo-carousel/spa.jpg";
 import club from "../../../public/photo-carousel/club.jpg";

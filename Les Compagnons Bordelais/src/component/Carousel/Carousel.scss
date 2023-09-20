@@ -27,3 +27,16 @@
 .carousel-card p {
   padding: 20px 9px;
 }
+
+.carousel-width
+    {
+    width: 660px;
+  }
+
+  // Media Queries
+  
+@media screen  and (min-width : 660px){
+.carousel-width{
+  width: 100%;
+}
+}

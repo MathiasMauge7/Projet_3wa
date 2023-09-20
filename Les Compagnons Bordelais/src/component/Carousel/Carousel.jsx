@@ -69,7 +69,7 @@ export default function Carousel() {
 
   return (
     <div className="carousel-container">
-      <Slider {...settings} style={{ width: "660px" }}>
+      <Slider {...settings} className="carousel-width">
         {carouselContent.map((content, i) => (
           <div key={i} className="carousel-card">
             <img

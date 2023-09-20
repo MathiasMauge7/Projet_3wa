@@ -6,3 +6,26 @@
     height: 140px;
   }
 }
+
+// Media Queries
+
+@media screen and ( min-width: 768px){
+  .contact-form {
+      margin-left: 10vw;
+        width: 80vw;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .contact-form {
+    margin-left: 15vw;
+    width: 70vw;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .contact-form {
+    margin-left: 20vw;
+    width: 60vw;
+  }
+}

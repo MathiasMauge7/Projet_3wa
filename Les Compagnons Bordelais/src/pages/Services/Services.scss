@@ -9,3 +9,32 @@
 .pad p {
   padding: 1em 0;
 }
+
+
+// Media Queries
+@media screen and ( min-width: 768px){
+  .img-png-container{
+    width: 80vh;
+    .img-png {
+      width: 45vw;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .img-png-container {
+    width: 100vh;
+    .img-png {
+      width: 35vw;
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .img-png-container {
+    width: 125vh;
+    .img-png {
+      width: 25vw;
+    }
+  }
+}
