@@ -17,6 +17,7 @@ import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
 
 function App() {
   const isAuthenticated = true; // cookie de session
+
   return (
     <BrowserRouter>
       <Navbar />

@@ -4,6 +4,7 @@ import bgContact from "../../../public/background/bgContact.jpg";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ScroolToTheTop from "../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -48,6 +49,7 @@ export default function Contact() {
 
   return (
     <div className="container">
+      <ScroolToTheTop />
       <BackgroundText img={bgContact} text={<h2>FORMULAIRE DE CONTACT</h2>} />
       <div className="background"></div>
       <form method="post" className="contact-form pad" onSubmit={handleSubmit}>

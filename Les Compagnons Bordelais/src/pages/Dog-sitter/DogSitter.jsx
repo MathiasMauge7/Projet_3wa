@@ -4,6 +4,7 @@ import Presentation from "../../component/Presentation/Presentation";
 import img1 from "../../../public/img/garderie1.jpg";
 import img2 from "../../../public/img/garderie2.jpg";
 import "./Dogsitter.scss";
+import ScroolToTheTop from "../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function DogSitter() {
   const presentation = {
@@ -32,6 +33,7 @@ export default function DogSitter() {
   };
   return (
     <div className="container">
+      <ScroolToTheTop />
       <Presentation
         title={presentation.title}
         text={presentation.text}

@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { createSlice } from "@reduxjs/toolkit";
-import { updateClientInfo } from "../../store/clientSlice";
+
 import "./style.scss";
 
 export default function Login() {

@@ -7,6 +7,7 @@ import PreviousNext from "../../../component/PreviousNext/PreviousNext";
 import CardTarif from "../../../component/Card/CardTarif";
 import BackgroundText from "../../../component/BackgroungText/BackgroundText";
 import bgText from "../../../../public/background/bgTextSpa.jpg";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function Spa() {
   const presentation = {
@@ -35,6 +36,8 @@ export default function Spa() {
 
   return (
     <div className="container">
+      <ScroolToTheTop />
+
       <Presentation
         title={presentation.title}
         text={presentation.text}
