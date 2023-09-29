@@ -8,9 +8,6 @@ export default function Dashbord() {
   const [contactFormulaire, setContactFormulaire] = useState([]);
   const [selectId, setSelectId] = useState([]);
 
-  console.log(usersInfos);
-
-  console.log(selectId);
   useEffect(() => {
     fetch("http://127.0.0.1:4200/api/formulaire-contact", { method: "GET" })
       .then((response) => response.json())
@@ -64,24 +61,9 @@ export default function Dashbord() {
       });
   }, [selectId]);
 
+  let number = 1;
   return (
     <div className="container">
-      <div className="pad card">
-        <h3 className="marg-bottom">FORMULAIRE DE CONTACT</h3>
-        {contactFormulaire.length >= 0 ? (
-          contactFormulaire.map((formulaire) => (
-            <ul className="marg-bottom" key={formulaire._id}>
-              <li>Nom: {formulaire.name}</li>
-              <li>Mail: {formulaire.mail}</li>
-              <li>Numéro de téléphone: {formulaire.tel}</li>
-              <li>Sujet: {formulaire.sujet}</li>
-              <li>Message: {formulaire.message}</li>
-            </ul>
-          ))
-        ) : (
-          <p>Aucune formulaire de contact n'a été trouvée.</p>
-        )}
-      </div>
       <div className="card">
         <h3 className="marg-bottom">LISTE DES UTILISATEURS</h3>
         <ul>
@@ -101,7 +83,7 @@ export default function Dashbord() {
         </ul>
       </div>
       <div className="card">
-        <h3 className="marg-bottom">INFOS DES UTILISATEURS</h3>
+        <h3 className="marg-bottom">INFOS DE UTILISATEUR</h3>
 
         {usersInfos.length > 0 ? (
           usersInfos.map((infos) => (
@@ -113,11 +95,11 @@ export default function Dashbord() {
             </ul>
           ))
         ) : (
-          <p>Aucune information sur les utilisateurs n'a été trouvée.</p>
+          <p>Aucun utilisateur n'a été sélectionné.</p>
         )}
       </div>
       <div className="card">
-        <h3 className="marg-bottom">INFOS CHIEN DES UTILISATEURS</h3>
+        <h3 className="marg-bottom">INFOS CHIEN DE UTILISATEUR</h3>
         {usersDogInfos.length > 0 ? (
           usersDogInfos.map((dogInfos) => (
             <ul className="marg-bottom" key={dogInfos.client_id}>
@@ -131,8 +113,33 @@ export default function Dashbord() {
             </ul>
           ))
         ) : (
-          <p>Aucune information sur les utilisateurs n'a été trouvée.</p>
+          <p>Aucun utilisateur n'a été sélectionné.</p>
         )}
+      </div>
+      <div className="card formulaire-card">
+        <h3 className="marg-bottom">
+          FORMULAIRES DE CONTACT ({contactFormulaire.length})
+        </h3>
+        <div className="flex-wrap">
+          {contactFormulaire.length > 0 ? (
+            contactFormulaire.map((formulaire) => (
+              <>
+                <div className="card-container-dashboard">
+                  <span>{number++}</span>
+                  <ul className="pad1" key={formulaire._id}>
+                    <li>Nom: {formulaire.name}</li>
+                    <li>Mail: {formulaire.mail}</li>
+                    <li>Numéro de téléphone: {formulaire.tel}</li>
+                    <li>Sujet: {formulaire.sujet}</li>
+                    <li>Message: {formulaire.message}</li>
+                  </ul>
+                </div>
+              </>
+            ))
+          ) : (
+            <p>Aucune formulaire de contact n'a été trouvée.</p>
+          )}
+        </div>
       </div>
     </div>
   );
