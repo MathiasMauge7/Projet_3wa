@@ -7,12 +7,12 @@ const app = express();
 const jwt = require("jsonwebtoken");
 const cookie = require("cookie");
 
-const PORT = process.env.PORT || 5173;
+const PORT = process.env.PORT || 4200;
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Remplacez par l'URL de votre application cliente
+    // origin: "http://localhost:4200", // Remplacez par l'URL de votre application cliente
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Activer l'envoi de cookies
   })
@@ -122,12 +122,43 @@ app.get("/cookie-test", async (req, res) => {
   res.send("Connecté avec succès");
 });
 
-app.get("/api/users", async (req, res, next) => {
+app.get("/api/users", async (req, res) => {
   try {
-    const users = await Client.find({});
-    res.send(users);
+    const users = await Client.find();
+    res.json(users);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/users-infos/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId
+    const usersInfos = await InfosClient.findOne({ client_id: userId });
+
+    res.json(usersInfos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/users-dog-infos/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId
+    const usersDogInfos = await InfosDog.findOne({ client_id: userId });
+
+    res.json(usersDogInfos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/formulaire-contact", async (req, res) => {
+  try {
+    const contactFormulaire = await FormulaireContact.find();
+    res.json(contactFormulaire);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -201,7 +232,7 @@ app.post("/api/formulaire-contact", async (req, res) => {
       message,
     });
     res.status(200).json({
-      msg: "Ajout du nouveau formualaire de contact ok",
+      msg: "Ajout du nouveau formulaire de contact ok",
       createdDogInfos: newFormulaireContact,
     });
   } catch (error) {
