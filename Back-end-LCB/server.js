@@ -241,6 +241,22 @@ app.post("/api/formulaire-contact", async (req, res) => {
   }
 });
 
+app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
+  try {
+    const formulaireId = req.params.formulaireId;
+    const deleteFormulaire = await FormulaireContact.findByIdAndDelete(formulaireId);
+
+    if (!deleteFormulaire) {
+      return res.status(404).json({ message: "Élément non trouvé." });
+    }
+
+    res.status(200).json({ message: "Élément supprimé avec succès." });
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'élément :", error);
+    res.status(500).json({ message: "Erreur lors de la suppression de l'élément." });
+  }
+});
+
 app.post("/api/register", async (req, res) => {
   // const user = req.body;
   const { email, password } = req.body;

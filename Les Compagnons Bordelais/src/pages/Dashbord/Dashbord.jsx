@@ -7,6 +7,7 @@ export default function Dashbord() {
   const [usersDogInfos, setUsersDogInfos] = useState([]);
   const [contactFormulaire, setContactFormulaire] = useState([]);
   const [selectId, setSelectId] = useState([]);
+  
 
   useEffect(() => {
     fetch("http://127.0.0.1:4200/api/formulaire-contact", { method: "GET" })
@@ -60,6 +61,25 @@ export default function Dashbord() {
         console.log("Erreur lors de la récupération des utilisateurs :", error);
       });
   }, [selectId]);
+
+  const handleDelete = (formulaireId) => {
+    fetch (`http://127.0.0.1:4200/api/formulaire-contact/${formulaireId}`,
+    { 
+    method: 'DELETE', 
+    headers:{
+      'Content-Type':'application/json'
+    }})
+    .then((response) => {
+      if(!response.ok){
+        throw new Error("Une erreur s'est produite")
+      }
+      setContactFormulaire((prevFormulaires) =>
+      prevFormulaires.filter((formulaire) => formulaire._id !== formulaireId))
+  
+  }).catch((e)=>{
+    console.log(e)
+  })
+  };
 
   let number = 1;
   return (
@@ -133,6 +153,7 @@ export default function Dashbord() {
                     <li>Sujet: {formulaire.sujet}</li>
                     <li>Message: {formulaire.message}</li>
                   </ul>
+                  <button onClick={()=> handleDelete(formulaire._id)}>Supprimer</button>
                 </div>
               </>
             ))

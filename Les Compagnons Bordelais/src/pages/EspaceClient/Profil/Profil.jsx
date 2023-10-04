@@ -3,10 +3,58 @@ import pp from "../../../../public/img/pp.jpg";
 import pdDog from "../../../../public/img/pp-dog.jpg";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export default function Profil() {
-  const clientInfos = useSelector((state) => state.client);
-  const clientDogInfos = useSelector((state) => state.dog);
+  const [usersInfos, setUsersInfos] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [usersDogInfos, setUsersDogInfos] = useState([]);
+  // const clientInfos = useSelector((state) => state.client);
+    const clientDogInfos = useSelector((state) => state.dog);
+
+    useEffect(() => {
+
+      fetch("http://127.0.0.1:4200/api/users", { method: "GET" })
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data);
+  
+        if (data.length > 0) {
+          fetch(`http://127.0.0.1:4200/api/users-infos/${selectId}`, {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              setUsersInfos([data]);
+            })
+            .catch((error) => {
+              console.log(
+                "Erreur lors de la récupération des informations des utilisateurs :",
+                error
+              );
+            });
+  
+          fetch(`http://127.0.0.1:4200/api/users-dog-infos/${selectId}`, {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              setUsersDogInfos([data]);
+            })
+            .catch((error) => {
+              console.log(
+                "Erreur lors de la récupération des informations des chien des utilisateurs :",
+                error
+              );
+            });
+        }
+      })
+      .catch((error) => {
+        console.log("Erreur lors de la récupération des utilisateurs :", error);
+      });
+          },[])  
+   
+  
 
   return (
     <div className="container marg-top">
@@ -14,7 +62,27 @@ export default function Profil() {
         <div className="pp-container">
           <img src={pp} alt="photo de profil" className="photo-profil" />
         </div>
-        <div className="client-content sectionContainer">
+         <div className="client-content sectionContainer">
+          <p>
+            Nom: <span>{usersInfos.name}</span>
+          </p>
+          <p>
+            Prenom: <span>{usersInfos.lastname}</span>
+          </p>
+          <p>
+            Mail: <span>{usersInfos.mail}</span>
+          </p>
+          <p>
+            Adresse postal: <span>{usersInfos.address}</span>
+          </p>
+          <p>
+            Téléphone: <span>{usersInfos.tel}</span>
+          </p>
+          <NavLink to="./info" className="edit-profil">
+            Modifier mon profil
+          </NavLink>
+        </div> 
+        {/* <div className="client-content sectionContainer">
           <p>
             Nom: <span>{clientInfos.name}</span>
           </p>
@@ -33,7 +101,7 @@ export default function Profil() {
           <NavLink to="./info" className="edit-profil">
             Modifier mon profil
           </NavLink>
-        </div>
+        </div> */}
       </div>
       <div className="dog-container pad-top ">
         <div className="background"></div>
