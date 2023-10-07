@@ -48,7 +48,7 @@ export default function Contact() {
 
   return (
     <div className="container">
-      <BackgroundText img={bgContact} text={<h2>FORMULAIRE DE CONTACT</h2>} />
+      <BackgroundText img={bgContact} text={"FORMULAIRE DE CONTACT"} />
       <div className="background"></div>
       <form method="post" className="contact-form pad" onSubmit={handleSubmit}>
         <label htmlFor="name" />
