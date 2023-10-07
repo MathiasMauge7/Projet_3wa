@@ -78,3 +78,13 @@ div::-webkit-scrollbar {
   padding-bottom: 10px;
   border-right: solid;
 }
+
+.pointerTransform {
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  &:hover {
+    color: #a9af37;
+    font-weight: bold;
+    transform: translateX(5px);
+  }
+}

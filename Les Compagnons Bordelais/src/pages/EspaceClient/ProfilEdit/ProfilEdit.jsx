@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateClientInfo } from "../../../store/clientSlice";
 import { useNavigate } from "react-router-dom";
 import "./ProfilEdit.scss";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function ProfilEdit() {
   const clientInfos = useSelector((state) => state.client);
@@ -11,6 +12,24 @@ export default function ProfilEdit() {
   });
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    fetch(`http://127.0.0.1:4200/api/users-infos/${selectId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUsersInfos([data]);
+      })
+      .catch((error) => {
+        console.log(
+          "Erreur lors de la récupération des informations des utilisateurs :",
+          error
+        );
+      });
+}, [third])
+
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -48,6 +67,8 @@ export default function ProfilEdit() {
   };
   return (
     <div className="container">
+      <ScroolToTheTop />
+
       <div className="client-infos-container pad">
         <form onSubmit={handleSubmit} className="contact-form pad">
           <h1>Infos du profil</h1>

@@ -1,0 +1,73 @@
+.card {
+  h3 {
+    padding-top: 2em;
+    text-align: center;
+  }
+  ul {
+    list-style: none;
+  }
+
+  p {
+    margin-left: 1em;
+  }
+  span {
+    background: white;
+    height: fit-content;
+    width: 15px;
+  }
+}
+
+.card-container-dashboard {
+  display: flex;
+  flex-wrap: nowrap;
+  background-color: #2b25401c;
+  margin-bottom: 0.5em;
+}
+
+.card-container {
+  background-color: red;
+}
+
+.pad1 {
+  padding: 1em;
+  width: 100%;
+}
+// Media Queries
+
+@media screen and (min-width: 768px) {
+  .flex-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .formulaire-card {
+    width: 80vw !important;
+  }
+
+  .card {
+    width: 38vw;
+
+    .card-container-dashboard {
+      width: 39vw;
+      display: flex;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .card {
+    .card-container-dashboard {
+      width: 25vw;
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .card {
+    .card-container-dashboard {
+      width: 19vw;
+    }
+  }
+}

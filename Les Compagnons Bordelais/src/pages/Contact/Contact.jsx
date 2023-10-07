@@ -4,6 +4,7 @@ import bgContact from "../../../public/background/bgContact.jpg";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ScroolToTheTop from "../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -20,16 +21,33 @@ export default function Contact() {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5173/api/formulaire-contact",
-        {
+      const response = fetch("http://127.0.0.1:5173/api/formulaire-contact", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify({
           name: formData.name,
           mail: formData.mail,
           tel: formData.tel,
           sujet: formData.sujet,
           message: formData.message,
-        }
-      );
+        }),
+      }).then((response) => {
+        console.log(response);
+        console.log("Formulaire de contact soumie");
+        navigate("/");
+      });
+      // const response = await axios.post(
+      //   "http://localhost:5173/api/formulaire-contact",
+      //   {
+      //     name: formData.name,
+      //     mail: formData.mail,
+      //     tel: formData.tel,
+      //     sujet: formData.sujet,
+      //     message: formData.message,
+      //   }
+      // );
       if (response.status === 200) {
         console.log("Formulaire de contact soumie");
         navigate("/");
@@ -48,7 +66,8 @@ export default function Contact() {
 
   return (
     <div className="container">
-      <BackgroundText img={bgContact} text={"FORMULAIRE DE CONTACT"} />
+      <ScroolToTheTop />
+      <BackgroundText img={bgContact} text={<h2>FORMULAIRE DE CONTACT</h2>} />
       <div className="background"></div>
       <form method="post" className="contact-form pad" onSubmit={handleSubmit}>
         <label htmlFor="name" />

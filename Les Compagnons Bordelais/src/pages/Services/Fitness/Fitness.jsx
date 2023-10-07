@@ -7,6 +7,7 @@ import spa from "../../../../public/background/spa.jpg";
 import promenade from "../../../../public/background/promenade.jpg";
 import bgText from "../../../../public/background/bgTextFitness.jpg";
 import PreviousNext from "../../../component/PreviousNext/PreviousNext";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function Fitness() {
   const presentation = {
@@ -34,6 +35,8 @@ export default function Fitness() {
   };
   return (
     <div className="container">
+      <ScroolToTheTop />
+
       <Presentation
         title={presentation.title}
         text={presentation.text}

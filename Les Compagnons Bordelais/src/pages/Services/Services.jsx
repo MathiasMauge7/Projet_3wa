@@ -6,6 +6,7 @@ import spa from "../../../public/photo-carousel/spa.jpg";
 import club from "../../../public/photo-carousel/club.jpg";
 import "./services.scss";
 import Presentation from "../../component/Presentation/Presentation";
+import ScroolToTheTop from "../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function Services() {
   const text = [
@@ -42,6 +43,7 @@ export default function Services() {
   };
   return (
     <div className="container">
+      <ScroolToTheTop />
       <Presentation
         title={presentation.title}
         text={presentation.text}

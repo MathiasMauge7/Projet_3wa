@@ -1,10 +1,12 @@
 import video from "../../../public/video/video-acceuil-1.mp4";
 import Carousel from "../../component/Carousel/Carousel";
+import ScroolToTheTop from "../../component/ScrollToTheTop/ScroolToTheTop";
 import "./Home.scss";
 
 export default function Home() {
   return (
     <div className="noScroll-x">
+      <ScroolToTheTop />
       <section className="height100Vh">
         <video className="video" autoPlay muted>
           <source src={video} type="video/mp4" />

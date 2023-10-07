@@ -14,9 +14,11 @@ import Login from "./pages/EspaceClient/Login";
 import Profil from "./pages/EspaceClient/Profil/Profil";
 import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
 import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
+import Dashbord from "./pages/Dashbord/Dashbord";
 
 function App() {
   const isAuthenticated = true; // cookie de session
+
   return (
     <BrowserRouter>
       <Navbar />
@@ -64,6 +66,7 @@ function App() {
           path="*"
           element={<div className="container">Page not found</div>}
         ></Route>
+        <Route path="/tableau-de-bord" element={<Dashbord />}></Route>
       </Routes>
       <Footer />
     </BrowserRouter>

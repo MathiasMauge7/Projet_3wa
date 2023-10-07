@@ -4,6 +4,7 @@ import { updateDogInfo } from "../../../store/dogSlice";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./DogProfilEdit.scss";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function DogProfilEdit() {
   const DogInfos = useSelector((state) => state.dog);
@@ -51,6 +52,7 @@ export default function DogProfilEdit() {
 
   return (
     <div className="container">
+      <ScroolToTheTop />
       <div className="client-infos-container pad">
         <form onSubmit={handleSubmit} className="contact-form pad">
           <h1>Infos du profil</h1>

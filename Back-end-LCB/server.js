@@ -1,44 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 const app = express();
-const jwt = require("jsonwebtoken");
-const cookie = require("cookie");
 
-const PORT = process.env.PORT || 5173;
+
+const PORT = process.env.PORT || 4200;
 
 app.use(express.json());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Remplacez par l'URL de votre application cliente
+    // origin: "http://localhost:4200", // Remplacez par l'URL de votre application cliente
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Activer l'envoi de cookies
   })
 );
-app.use(cookieParser());
 
-// Middleware pour vérifier le JWT lors des requêtes protégées
-function verifyJWT(req, res, next) {
-  const token = req.session.token;
-  if (!token) {
-    return res.sendStatus(403); // Non autorisé
-  }
 
-  jwt.verify(token, "foo", (err, user) => {
-    if (err) {
-      return res.sendStatus(403); // Non autorisé
-    }
-    req.user = user;
-    next();
-  });
-}
-
-// Exemple d'utilisation du middleware pour protéger une route
-app.get("/page-protégée", verifyJWT, (req, res) => {
-  res.send("Bienvenue dans la page protégée");
-});
 
 mongoose
   .connect(
@@ -91,14 +69,6 @@ const FormulaireContactSchema = new mongoose.Schema({
   message: String,
 });
 
-// ClientSchema.methods.generateAuthTokenAndSaveUser = async function () {
-//   const authToken = jwt.sign({ _id: this._id.toString() }, "foo", {
-//     expiresIn: 60 * 60,
-//   });
-//   this.authTokens.push({ authToken });
-//   await this.save();
-//   return authToken;
-// };
 
 const Client = mongoose.model("Client", ClientSchema);
 const InfosClient = mongoose.model("InfosClient", InfosClientSchema);
@@ -122,12 +92,43 @@ app.get("/cookie-test", async (req, res) => {
   res.send("Connecté avec succès");
 });
 
-app.get("/api/users", async (req, res, next) => {
+app.get("/api/users", async (req, res) => {
   try {
-    const users = await Client.find({});
-    res.send(users);
+    const users = await Client.find();
+    res.json(users);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/users-infos/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId
+    const usersInfos = await InfosClient.findOne({ client_id: userId });
+
+    res.json(usersInfos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/users-dog-infos/:userId", async (req, res) => {
+  try {
+    const userId = req.params.userId
+    const usersDogInfos = await InfosDog.findOne({ client_id: userId });
+
+    res.json(usersDogInfos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/formulaire-contact", async (req, res) => {
+  try {
+    const contactFormulaire = await FormulaireContact.find();
+    res.json(contactFormulaire);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
@@ -201,7 +202,7 @@ app.post("/api/formulaire-contact", async (req, res) => {
       message,
     });
     res.status(200).json({
-      msg: "Ajout du nouveau formualaire de contact ok",
+      msg: "Ajout du nouveau formulaire de contact ok",
       createdDogInfos: newFormulaireContact,
     });
   } catch (error) {
@@ -210,8 +211,24 @@ app.post("/api/formulaire-contact", async (req, res) => {
   }
 });
 
+app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
+  try {
+    const formulaireId = req.params.formulaireId;
+    const deleteFormulaire = await FormulaireContact.findByIdAndDelete(formulaireId);
+
+    if (!deleteFormulaire) {
+      return res.status(404).json({ message: "Élément non trouvé." });
+    }
+
+    res.status(200).json({ message: "Élément supprimé avec succès." });
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'élément :", error);
+    res.status(500).json({ message: "Erreur lors de la suppression de l'élément." });
+  }
+});
+
 app.post("/api/register", async (req, res) => {
-  // const user = req.body;
+
   const { email, password } = req.body;
   try {
     const existingClient = await Client.findOne({ email });
@@ -219,12 +236,11 @@ app.post("/api/register", async (req, res) => {
       return res.status(400).json({ message: "Ce mail existe déjà." });
     }
     const hashedPassword = await bcrypt.hash(password, 7);
-    // const authToken = await user.generateAuthTokenAndSaveUser();
+
 
     const newClient = new Client({
       email: email,
       password: hashedPassword,
-      // authTokens: authToken,
     });
 
     const addedClientBySave = await newClient.save();
@@ -266,8 +282,7 @@ app.post("/api/login", async (req, res) => {
   try {
     console.log(req.body);
     const user = await Client.findOne({ email: req.body.email });
-    // const authToken = await user.generateAuthTokenAndSaveUser();
-    // res.send({ user, authToken });
+    res.send({ user });
     console.log(user);
     const passwordCompare = await bcrypt.compare(
       req.body.password,
@@ -275,28 +290,15 @@ app.post("/api/login", async (req, res) => {
     );
 
     if (passwordCompare) {
+      const token = jwt.sign({
+        id: user._id,
+        email: user.email
+      }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_DURING})
       console.log("mdp identique");
-
-      const token = jwt.sign({ id: user._id }, "secretKey");
-
-      const tokenCookie = cookie.serialize("jwtoken", token, {
-        httpOnly: true, // Empêche le JavaScript côté client d'accéder au cookie
-        secure: false, // Utilisez true en production pour activer HTTPS
-        maxAge: 3600, // Durée de validité du cookie en secondes (1 heure)
-        path: "/", // Le chemin du cookie (peut être personnalisé)
-      });
-
-      // Créez un JWT et stockez-le dans la session
-      // const token = jwt.sign({ id: user._id }, "foo");
-      // const tokenCookie = cookie.serialize("token", token, {
-      //   httpOnly: true,
-      //   secure: false,
-      //   maxAge: 3600,
-      //   path: "/",
-      // });
-      res.setHeader("Set-Cookie", tokenCookie);
       res.status(201);
-      res.send("ok");
+      console.log(token)
+      res.json({acces_token : token})
+    
     } else {
       res
         .status(401)

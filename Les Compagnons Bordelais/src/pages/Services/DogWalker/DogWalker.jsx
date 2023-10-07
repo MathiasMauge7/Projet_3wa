@@ -7,6 +7,7 @@ import BackgroundText from "../../../component/BackgroungText/BackgroundText";
 
 import bgText from "../../../../public/background/bgTextPromenade.jpg";
 import CardTarif from "../../../component/Card/CardTarif";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 
 export default function DogWalker() {
   const presentation = {
@@ -34,6 +35,7 @@ export default function DogWalker() {
   };
   return (
     <div className="container">
+      <ScroolToTheTop />
       <Presentation
         title={presentation.title}
         text={presentation.text}

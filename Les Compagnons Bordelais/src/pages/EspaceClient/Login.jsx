@@ -1,11 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { createSlice } from "@reduxjs/toolkit";
-import { updateClientInfo } from "../../store/clientSlice";
+
 import "./style.scss";
 
 export default function Login() {
@@ -44,29 +41,21 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        fetch("http://127.0.0.1:5173/api/login", {
+        fetch("http://127.0.0.1:4200/api/login", {
           method: "POST",
           withCredential: true,
           headers: {
+            Accept: "application/json",
             "Content-Type": "application/json",
+            // 'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             email,
             password,
           }),
         }).then((response) => console.log(response));
-        // const response = await axios.post(
-        //   "http://127.0.0.1:5173/api/login",
-        //   {
-        //     email,
-        //     password,
-        //   }
+        // navigate("/espace-client/profil");
 
-        // );
-        // console.log(response);
-        navigate("/espace-client/profil");
-
-        // console.log(response.data.authToken);
       } catch (error) {
         console.error(error);
       }
