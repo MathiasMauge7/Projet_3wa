@@ -41,31 +41,21 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        fetch("http://127.0.0.1:5173/api/login", {
+        fetch("http://127.0.0.1:4200/api/login", {
           method: "POST",
           withCredential: true,
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            // 'Authorization': 'Bearer ${token}'
+            // 'Authorization': `Bearer ${token}`
           },
           body: JSON.stringify({
             email,
             password,
           }),
         }).then((response) => console.log(response));
-        // const response = await axios.post(
-        //   "http://127.0.0.1:5173/api/login",
-        //   {
-        //     email,
-        //     password,
-        //   }
+        // navigate("/espace-client/profil");
 
-        // );
-        // console.log(response);
-        navigate("/espace-client/profil");
-
-        // console.log(response.data.authToken);
       } catch (error) {
         console.error(error);
       }
