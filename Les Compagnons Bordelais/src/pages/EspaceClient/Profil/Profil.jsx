@@ -1,60 +1,51 @@
 import "./Profil.scss";
 import pp from "../../../../public/img/pp.jpg";
 import pdDog from "../../../../public/img/pp-dog.jpg";
-import { useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios"; // Importation d'Axios
 
 export default function Profil() {
-  const [usersInfos, setUsersInfos] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [usersDogInfos, setUsersDogInfos] = useState([]);
-  // const clientInfos = useSelector((state) => state.client);
-    const clientDogInfos = useSelector((state) => state.dog);
+  const { userId } = useParams();
+  const [usersInfos, setUsersInfos] = useState({});
+  const [usersDogInfos, setUsersDogInfos] = useState({});
 
-    useEffect(() => {
+  // Fonction pour récupérer les infos utilisateur
+  const fetchUserInfos = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:5000/api/users-infos/${userId}`
+      );
+      setUsersInfos(response.data);
+      console.log(response);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des informations de l'utilisateur:",
+        error
+      );
+    }
+  };
 
-      fetch("http://127.0.0.1:4200/api/users", { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        setUsers(data);
-  
-        if (data.length > 0) {
-          fetch(`http://127.0.0.1:4200/api/users-infos/${selectId}`, {
-            method: "GET",
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              setUsersInfos([data]);
-            })
-            .catch((error) => {
-              console.log(
-                "Erreur lors de la récupération des informations des utilisateurs :",
-                error
-              );
-            });
-  
-          fetch(`http://127.0.0.1:4200/api/users-dog-infos/${selectId}`, {
-            method: "GET",
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              setUsersDogInfos([data]);
-            })
-            .catch((error) => {
-              console.log(
-                "Erreur lors de la récupération des informations des chien des utilisateurs :",
-                error
-              );
-            });
-        }
-      })
-      .catch((error) => {
-        console.log("Erreur lors de la récupération des utilisateurs :", error);
-      });
-          },[])  
-   
-  
+  // Fonction pour récupérer les infos du chien
+  const fetchDogInfos = async () => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:5000/api/users-dog-infos/${userId}`
+      );
+      setUsersDogInfos(response.data);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la récupération des informations du chien:",
+        error
+      );
+    }
+  };
+
+  // Utilisation de useEffect pour appeler les fonctions dès le chargement du composant
+  useEffect(() => {
+    fetchUserInfos();
+    fetchDogInfos();
+  }, [userId]); // L'effet se déclenche à chaque fois que l'ID utilisateur change
 
   return (
     <div className="container marg-top">
@@ -62,7 +53,7 @@ export default function Profil() {
         <div className="pp-container">
           <img src={pp} alt="photo de profil" className="photo-profil" />
         </div>
-         <div className="client-content sectionContainer">
+        <div className="client-content sectionContainer">
           <p>
             Nom: <span>{usersInfos.name}</span>
           </p>
@@ -81,7 +72,7 @@ export default function Profil() {
           <NavLink to="./info" className="edit-profil">
             Modifier mon profil
           </NavLink>
-        </div> 
+        </div>
         {/* <div className="client-content sectionContainer">
           <p>
             Nom: <span>{clientInfos.name}</span>
@@ -110,34 +101,34 @@ export default function Profil() {
         </div>
         <div className="dog-content">
           <p>
-            Prénom: <span>{clientDogInfos.lastname}</span>
+            Prénom: <span>{usersDogInfos.lastname}</span>
           </p>
           <p>
-            Date de naissance: <span>{clientDogInfos.birthDate}</span>
+            Date de naissance: <span>{usersDogInfos.birthDate}</span>
           </p>
           <p>
             Age: <span>calcul </span>ans
           </p>
           <p>
-            Sexe: <span>{clientDogInfos.sex}</span>
+            Sexe: <span>{usersDogInfos.sex}</span>
           </p>
           <p>
-            Race: <span>{clientDogInfos.breed}</span>
+            Race: <span>{usersDogInfos.breed}</span>
           </p>
           <p>
-            Tatouage: <span>{clientDogInfos.tatoo}</span>
+            Tatouage: <span>{usersDogInfos.tatoo}</span>
           </p>
           <p>
-            Puce: <span>{clientDogInfos.microchip}</span>
+            Puce: <span>{usersDogInfos.microchip}</span>
           </p>
           <p>
-            Traitement médical: <span>{clientDogInfos.medical}</span>
+            Traitement médical: <span>{usersDogInfos.medical}</span>
           </p>
           <p>
             Particularité à nous spécifier: <span>Oui quelques trucs..</span>
           </p>
           <NavLink to="./chiens-info" className="edit-profil">
-            Modifier le profil de {clientDogInfos.lastname}
+            Modifier le profil de {usersDogInfos.lastname}
           </NavLink>
         </div>
       </div>

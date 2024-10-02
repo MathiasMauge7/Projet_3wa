@@ -1,0 +1,44 @@
+Digramme de sequence simplifie reservation
+
+Utilisateur -> Site Web : Choisi un service
+
+Site Web -> Base de données : Recherche disponibilités
+
+Base de données --> Site Web : Disponibilités récupérées
+
+Site Web -> Utilisateur : Affiche le calendrier avec disponibilités
+
+
+Utilisateur -> Site Web : Sélectionne un créneau disponible
+
+Site Web -> Base de données : Crée une nouvelle réservation
+
+Base de données -> Site Web : Réservation créée avec succès
+
+Site Web -> Utilisateur : Confirmation de la réservation (page web)
+
+
+Site Web -> Base de données : Met à jour le calendrier (actualise les disponibilités)
+
+Base de données -> Site Web : Calendrier mis à jour
+
+
+Site Web -> Service SMS : Envoie une confirmation par SMS
+
+Service SMS -> Utilisateur : Envoie la confirmation par SMS
+
+
+Dans ce diagramme de séquence simplifié :
+
+L'utilisateur choisit un service sur le site web.
+Le site web interroge la base de données pour rechercher les disponibilités.
+La base de données renvoie les disponibilités au site web.
+Le site web affiche le calendrier avec les créneaux disponibles à l'utilisateur.
+L'utilisateur sélectionne un créneau disponible.
+Le site web crée une nouvelle réservation dans la base de données.
+La base de données confirme la création de la réservation au site web.
+Le site web affiche une confirmation de la réservation à l'utilisateur sur la page web.
+Le site web met à jour le calendrier en actualisant les disponibilités dans la base de données.
+La base de données confirme la mise à jour du calendrier au site web.
+Le site web envoie une confirmation de la réservation par SMS via un service SMS externe.
+Le service SMS envoie la confirmation de la réservation à l'utilisateur.

@@ -15,6 +15,7 @@ import Profil from "./pages/EspaceClient/Profil/Profil";
 import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
 import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
 import Dashbord from "./pages/Dashbord/Dashbord";
+import Booking from "./pages/Booking/Booking";
 
 function App() {
   const isAuthenticated = true; // cookie de session
@@ -24,6 +25,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/reservation" element={<Booking />}></Route>
         <Route path="/garderie" element={<DogSitter />}></Route>
         <Route path="/services" element={<Services />}></Route>
         <Route path="/services/fitness" element={<Fitness />}></Route>
@@ -32,7 +34,7 @@ function App() {
         <Route path="/espace-client/inscription" element={<SignIn />}></Route>
         <Route path="/espace-client/connexion" element={<Login />}></Route>
         <Route
-          path="/espace-client/profil"
+          path="/espace-client/profil/:userId"
           element={
             isAuthenticated ? (
               <Profil />
@@ -42,7 +44,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/espace-client/profil/info"
+          path="/espace-client/profil/:userId/info"
           element={
             isAuthenticated ? (
               <ProfilEdit />
@@ -52,7 +54,7 @@ function App() {
           }
         ></Route>
         <Route
-          path="/espace-client/profil/chiens-info"
+          path="/espace-client/profil/:userId/chiens-info"
           element={
             isAuthenticated ? (
               <DogProfilEdit />

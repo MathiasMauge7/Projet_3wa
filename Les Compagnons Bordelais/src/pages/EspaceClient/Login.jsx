@@ -2,6 +2,7 @@ import { useState } from "react";
 import BackgroundText from "../../component/BackgroungText/BackgroundText";
 import login from "../../../public/background/login.jpg";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import "./style.scss";
 
@@ -41,23 +42,20 @@ export default function Login() {
       setErrors(validationErrors);
     } else {
       try {
-        fetch("http://127.0.0.1:4200/api/login", {
-          method: "POST",
-          withCredential: true,
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            // 'Authorization': `Bearer ${token}`
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }).then((response) => console.log(response));
-        // navigate("/espace-client/profil");
-
+        const response = await axios.post("http://localhost:5000/api/login", {
+          email: email,
+          password: password,
+        });
+        const data = response.data;
+        if (response.status === 200) {
+          const userId = data.user._id;
+          console.log(response);
+          navigate(`/espace-client/profil/${userId}`);
+        } else {
+          console.error("Erreur de connexion: ", data.message);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Erreur lors de la connexion:", error);
       }
     }
   };

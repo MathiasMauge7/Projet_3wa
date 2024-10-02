@@ -7,10 +7,9 @@ export default function Dashbord() {
   const [usersDogInfos, setUsersDogInfos] = useState([]);
   const [contactFormulaire, setContactFormulaire] = useState([]);
   const [selectId, setSelectId] = useState([]);
-  
 
   useEffect(() => {
-    fetch("http://127.0.0.1:4200/api/formulaire-contact", { method: "GET" })
+    fetch("http://127.0.0.1:5173/api/formulaire-contact", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
         setContactFormulaire(data);
@@ -22,13 +21,13 @@ export default function Dashbord() {
         );
       });
 
-    fetch("http://127.0.0.1:4200/api/users", { method: "GET" })
+    fetch("http://127.0.0.1:5173/api/users", { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
         setUsers(data);
 
         if (data.length > 0) {
-          fetch(`http://127.0.0.1:4200/api/users-infos/${selectId}`, {
+          fetch(`http://127.0.0.1:5173/api/users-infos/${selectId}`, {
             method: "GET",
           })
             .then((response) => response.json())
@@ -42,7 +41,7 @@ export default function Dashbord() {
               );
             });
 
-          fetch(`http://127.0.0.1:4200/api/users-dog-infos/${selectId}`, {
+          fetch(`http://127.0.0.1:5173/api/users-dog-infos/${selectId}`, {
             method: "GET",
           })
             .then((response) => response.json())
@@ -63,22 +62,25 @@ export default function Dashbord() {
   }, [selectId]);
 
   const handleDelete = (formulaireId) => {
-    fetch (`http://127.0.0.1:4200/api/formulaire-contact/${formulaireId}`,
-    { 
-    method: 'DELETE', 
-    headers:{
-      'Content-Type':'application/json'
-    }})
-    .then((response) => {
-      if(!response.ok){
-        throw new Error("Une erreur s'est produite")
-      }
-      setContactFormulaire((prevFormulaires) =>
-      prevFormulaires.filter((formulaire) => formulaire._id !== formulaireId))
-  
-  }).catch((e)=>{
-    console.log(e)
-  })
+    fetch(`http://127.0.0.1:5173/api/formulaire-contact/${formulaireId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Une erreur s'est produite");
+        }
+        setContactFormulaire((prevFormulaires) =>
+          prevFormulaires.filter(
+            (formulaire) => formulaire._id !== formulaireId
+          )
+        );
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   let number = 1;
@@ -129,7 +131,7 @@ export default function Dashbord() {
               <li>Sexe: {dogInfos.sex}</li>
               <li>Pucé: {dogInfos.microchip}</li>
               <li>Tatoué: {dogInfos.tatoo}</li>
-              <li>Spécificité médiacale: {dogInfos.medical}</li>
+              <li>Spécificité médicale: {dogInfos.medical}</li>
             </ul>
           ))
         ) : (
@@ -153,7 +155,9 @@ export default function Dashbord() {
                     <li>Sujet: {formulaire.sujet}</li>
                     <li>Message: {formulaire.message}</li>
                   </ul>
-                  <button onClick={()=> handleDelete(formulaire._id)}>Supprimer</button>
+                  <button onClick={() => handleDelete(formulaire._id)}>
+                    Supprimer
+                  </button>
                 </div>
               </>
             ))

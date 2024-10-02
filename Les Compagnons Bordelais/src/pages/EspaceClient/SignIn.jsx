@@ -68,7 +68,7 @@ export default function SignIn() {
     } else {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5173/api/register",
+          "http://localhost:5000/api/register",
           {
             email,
             password,
@@ -80,7 +80,7 @@ export default function SignIn() {
 
         if (response.status === 201) {
           console.log("Inscription réussie front");
-          const res = await axios.post("http://127.0.0.1:5173/api/login", {
+          const res = await axios.post("http://localhost:5000/api/login", {
             email,
             password,
           });

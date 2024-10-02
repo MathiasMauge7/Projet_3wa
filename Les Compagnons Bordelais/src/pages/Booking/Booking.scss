@@ -1,0 +1,31 @@
+.calendar {
+    height: 45em;
+}
+
+.red-day {
+    background-color: #ff4d4f !important;
+    /* Rouge */
+    color: white;
+    /* Texte blanc */
+}
+
+.orange-day {
+    background-color: #ffa940 !important;
+    /* Orange */
+    color: white;
+    /* Texte blanc */
+}
+
+.green-day {
+    background-color: #52c41a !important;
+    /* Vert */
+    color: white;
+    /* Texte blanc */
+}
+
+.disabled-day {
+    background-color: #d9d9d9 !important;
+    /* Gris clair pour les jours désactivés */
+    color: #a6a6a6;
+    /* Texte gris pour les jours désactivés */
+}

@@ -4,19 +4,16 @@ const bcrypt = require("bcrypt");
 const cors = require("cors");
 const app = express();
 
-
-const PORT = process.env.PORT || 4200;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(
   cors({
-    // origin: "http://localhost:4200", // Remplacez par l'URL de votre application cliente
+    origin: "http://localhost:5173", // Remplacez par l'URL de votre application cliente
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     credentials: true, // Activer l'envoi de cookies
   })
 );
-
-
 
 mongoose
   .connect(
@@ -69,7 +66,6 @@ const FormulaireContactSchema = new mongoose.Schema({
   message: String,
 });
 
-
 const Client = mongoose.model("Client", ClientSchema);
 const InfosClient = mongoose.model("InfosClient", InfosClientSchema);
 const InfosDog = mongoose.model("InfosDog", InfosDogSchema);
@@ -103,7 +99,7 @@ app.get("/api/users", async (req, res) => {
 
 app.get("/api/users-infos/:userId", async (req, res) => {
   try {
-    const userId = req.params.userId
+    const userId = req.params.userId;
     const usersInfos = await InfosClient.findOne({ client_id: userId });
 
     res.json(usersInfos);
@@ -114,7 +110,7 @@ app.get("/api/users-infos/:userId", async (req, res) => {
 
 app.get("/api/users-dog-infos/:userId", async (req, res) => {
   try {
-    const userId = req.params.userId
+    const userId = req.params.userId;
     const usersDogInfos = await InfosDog.findOne({ client_id: userId });
 
     res.json(usersDogInfos);
@@ -147,17 +143,19 @@ app.get("/api/formulaire-contact", async (req, res) => {
 //   }
 // });
 
-app.patch("/api/infos-client", async (req, res) => {
+app.patch("/api/infos-client/:clientId", async (req, res) => {
+  const { clientId } = req.params.clientId; // Récupère le paramètre ID de l'URL
   const { editedClientInfos } = req.body;
+
   console.log(editedClientInfos);
   try {
-    if (!editedClientInfos.clientId) {
+    if (!clientId) {
       return res.status(400).json({ msg: "clientId requis" });
     }
 
     const updatedInfosClient = await InfosClient.findByIdAndUpdate(
-      editedClientInfos.clientId,
-      editedClientInfos,
+      clientId, // On utilise l'id récupéré dans l'URL
+      updatedData, // Données mises à jour
       { new: true }
     );
 
@@ -214,7 +212,9 @@ app.post("/api/formulaire-contact", async (req, res) => {
 app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
   try {
     const formulaireId = req.params.formulaireId;
-    const deleteFormulaire = await FormulaireContact.findByIdAndDelete(formulaireId);
+    const deleteFormulaire = await FormulaireContact.findByIdAndDelete(
+      formulaireId
+    );
 
     if (!deleteFormulaire) {
       return res.status(404).json({ message: "Élément non trouvé." });
@@ -223,12 +223,13 @@ app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
     res.status(200).json({ message: "Élément supprimé avec succès." });
   } catch (error) {
     console.error("Erreur lors de la suppression de l'élément :", error);
-    res.status(500).json({ message: "Erreur lors de la suppression de l'élément." });
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la suppression de l'élément." });
   }
 });
 
 app.post("/api/register", async (req, res) => {
-
   const { email, password } = req.body;
   try {
     const existingClient = await Client.findOne({ email });
@@ -236,7 +237,6 @@ app.post("/api/register", async (req, res) => {
       return res.status(400).json({ message: "Ce mail existe déjà." });
     }
     const hashedPassword = await bcrypt.hash(password, 7);
-
 
     const newClient = new Client({
       email: email,
@@ -290,15 +290,19 @@ app.post("/api/login", async (req, res) => {
     );
 
     if (passwordCompare) {
-      const token = jwt.sign({
-        id: user._id,
-        email: user.email
-      }, process.env.JWT_SECRET, {expiresIn: process.env.JWT_DURING})
+      // const token = jwt.sign(
+      //   {
+      //     id: user._id,
+      //     email: user.email,
+      //   }
+      // process.env.JWT_SECRET,
+      // { expiresIn: process.env.JWT_DURING }
+      console.log("password identique");
+      // );
       console.log("mdp identique");
-      res.status(201);
-      console.log(token)
-      res.json({acces_token : token})
-    
+      res.status(200);
+      // console.log(token);
+      // res.json({ acces_token: token });
     } else {
       res
         .status(401)

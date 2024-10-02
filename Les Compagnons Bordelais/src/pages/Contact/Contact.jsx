@@ -21,33 +21,16 @@ export default function Contact() {
     e.preventDefault();
     console.log(formData);
     try {
-      const response = fetch("http://127.0.0.1:5173/api/formulaire-contact", {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        "http://localhost:5000/api/formulaire-contact",
+        {
           name: formData.name,
           mail: formData.mail,
           tel: formData.tel,
           sujet: formData.sujet,
           message: formData.message,
-        }),
-      }).then((response) => {
-        console.log(response);
-        console.log("Formulaire de contact soumie");
-        navigate("/");
-      });
-      // const response = await axios.post(
-      //   "http://localhost:5173/api/formulaire-contact",
-      //   {
-      //     name: formData.name,
-      //     mail: formData.mail,
-      //     tel: formData.tel,
-      //     sujet: formData.sujet,
-      //     message: formData.message,
-      //   }
-      // );
+        }
+      );
       if (response.status === 200) {
         console.log("Formulaire de contact soumie");
         navigate("/");

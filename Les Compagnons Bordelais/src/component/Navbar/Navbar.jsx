@@ -108,6 +108,15 @@ export default function Navbar() {
             <li>
               <NavLink
                 style={checkIsActive}
+                to="/reservation"
+                onClick={handleBurgerStyle}
+              >
+                Prendre rendez-vous
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                style={checkIsActive}
                 to="/contact"
                 onClick={handleBurgerStyle}
               >

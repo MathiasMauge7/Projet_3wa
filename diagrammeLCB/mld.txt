@@ -1,0 +1,45 @@
+Table : Connexion
+- connexionId (PK)
+- email
+- password
+
+Table : InfosClients
+- infosClientsId (PK)
+- name
+- lastname
+- address
+- photo
+- id_connexion (FK)
+
+Table : InfosDogs
+- infosDogsId (PK)
+- client_id
+- lastname
+- birthDate
+- breed
+- sex
+- microchip
+- tatoo
+- medical
+- img
+- connexionId (FK)
+
+Table : Service
+- serviceId (PK)
+- service_name
+- description
+- price
+
+Table : Reservation
+- id_reservation (PK)
+- date
+- statut
+- serviceId  (FK)
+- infosClientId (FK)
+
+Table : ContactForm
+- contactFormId (PK)
+- name
+- email
+- sujet
+- message
