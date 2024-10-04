@@ -33,17 +33,8 @@ mongoose
 const ClientSchema = new mongoose.Schema({
   email: String,
   password: String,
+  dogName: String,
   authTokens: String,
-});
-
-const InfosClientSchema = new mongoose.Schema({
-  client_id: String,
-  name: String,
-  lastname: String,
-  mail: String,
-  address: String,
-  tel: String,
-  photo: String,
 });
 
 const InfosDogSchema = new mongoose.Schema({
@@ -58,6 +49,16 @@ const InfosDogSchema = new mongoose.Schema({
   img: String,
 });
 
+const InfosClientSchema = new mongoose.Schema({
+  client_id: String,
+  name: String,
+  lastname: String,
+  email: String,
+  address: String,
+  tel: String,
+  photo: String,
+});
+
 const FormulaireContactSchema = new mongoose.Schema({
   name: String,
   mail: String,
@@ -68,7 +69,7 @@ const FormulaireContactSchema = new mongoose.Schema({
 
 const Client = mongoose.model("Client", ClientSchema);
 const InfosClient = mongoose.model("InfosClient", InfosClientSchema);
-const InfosDog = mongoose.model("InfosDog", InfosDogSchema);
+const InfosDog = mongoose.model("InfosDogS", InfosDogSchema);
 const FormulaireContact = mongoose.model(
   "FormulaireContact",
   FormulaireContactSchema
@@ -102,6 +103,10 @@ app.get("/api/users-infos/:userId", async (req, res) => {
     const userId = req.params.userId;
     const usersInfos = await InfosClient.findOne({ client_id: userId });
 
+    if (!usersInfos) {
+      return res.status(404).json({ message: "Client introuvable" });
+    }
+
     res.json(usersInfos);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -128,63 +133,34 @@ app.get("/api/formulaire-contact", async (req, res) => {
   }
 });
 
-// app.post("/api/infos-client", async (req, res) => {
-//   const { editedClientInfos } = req.body;
-//   console.log(editedClientInfos);
-//   try {
-//     const newInfosClient = await InfosClient.create(editedClientInfos);
-//     res.status(200).json({
-//       msg: "Ajout des informations ok",
-//       createdInfosClient: newInfosClient,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json("Erreur serveur");
-//   }
-// });
+app.patch("/api/infos-client/:userId", async (req, res) => {
+  const userId = req.params.userId; // Récupère l'ID du client dans l'URL
+  const updatedData = req.body; // Données mises à jour envoyées par le client
 
-app.patch("/api/infos-client/:clientId", async (req, res) => {
-  const { clientId } = req.params.clientId; // Récupère le paramètre ID de l'URL
-  const { editedClientInfos } = req.body;
-
-  console.log(editedClientInfos);
   try {
-    if (!clientId) {
-      return res.status(400).json({ msg: "clientId requis" });
+    if (!userId) {
+      return res.status(400).json({ msg: "userId requis" });
     }
 
+    // Mise à jour des informations du client (y compris la liste des chiens)
     const updatedInfosClient = await InfosClient.findByIdAndUpdate(
-      clientId, // On utilise l'id récupéré dans l'URL
-      updatedData, // Données mises à jour
-      { new: true }
+      userId,
+      updatedData, // Données envoyées pour la mise à jour
+      { new: true, runValidators: true } // Retourne l'objet mis à jour et applique les validateurs
     );
 
     if (!updatedInfosClient) {
       return res.status(404).json({ msg: "Client introuvable" });
     }
 
+    // Répond avec l'objet mis à jour
     res.status(200).json({
       msg: "Mise à jour des informations client réussie",
       updatedInfosClient,
     });
   } catch (error) {
-    console.log(error);
-    res.status(500).json("Erreur serveur");
-  }
-});
-
-app.post("/api/infos-dog", async (req, res) => {
-  const { editedDogInfos } = req.body;
-  console.log(editedDogInfos);
-  try {
-    const newInfosDog = await InfosDog.create(editedDogInfos);
-    res.status(200).json({
-      msg: "Ajout des informations ok",
-      createdDogInfos: newInfosDog,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json("Erreur serveur");
+    console.error(error);
+    res.status(500).json({ msg: "Erreur serveur", error });
   }
 });
 
@@ -230,7 +206,7 @@ app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
 });
 
 app.post("/api/register", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, dogName } = req.body;
   try {
     const existingClient = await Client.findOne({ email });
     if (existingClient) {
@@ -239,12 +215,13 @@ app.post("/api/register", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 7);
 
     const newClient = new Client({
-      email: email,
+      email,
       password: hashedPassword,
+      dogName,
     });
 
     const addedClientBySave = await newClient.save();
-    console.log(addedClientBySave);
+    console.log("save", addedClientBySave);
     const clientId = addedClientBySave._id;
 
     await InfosClient.create({
@@ -259,17 +236,19 @@ app.post("/api/register", async (req, res) => {
 
     await InfosDog.create({
       client_id: clientId,
-      lastname: "",
+      lastname: dogName,
       birthDate: "",
       breed: "",
       sex: "",
-      tatoo: "",
       microchip: "",
+      tatoo: "",
       medical: "",
       img: "",
     });
 
-    res.status(201).json({ message: "Inscription réussie", clientId });
+    console.log(InfosClient);
+
+    res.status(200).json({ message: "Inscription réussie", clientId });
   } catch (error) {
     console.log(error);
     res

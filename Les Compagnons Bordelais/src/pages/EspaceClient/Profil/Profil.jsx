@@ -14,7 +14,7 @@ export default function Profil() {
   const fetchUserInfos = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/api/users-infos/${userId}`
+        `http://localhost:5000/api/users-infos/${userId}`
       );
       setUsersInfos(response.data);
       console.log(response);
@@ -30,9 +30,10 @@ export default function Profil() {
   const fetchDogInfos = async () => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:5000/api/users-dog-infos/${userId}`
+        `http://localhost:5000/api/users-dog-infos/${userId}`
       );
       setUsersDogInfos(response.data);
+      console.log(response);
     } catch (error) {
       console.error(
         "Erreur lors de la récupération des informations du chien:",
@@ -47,6 +48,7 @@ export default function Profil() {
     fetchDogInfos();
   }, [userId]); // L'effet se déclenche à chaque fois que l'ID utilisateur change
 
+  console.log(usersInfos);
   return (
     <div className="container marg-top">
       <div className="client-container">
@@ -61,7 +63,7 @@ export default function Profil() {
             Prenom: <span>{usersInfos.lastname}</span>
           </p>
           <p>
-            Mail: <span>{usersInfos.mail}</span>
+            Mail: <span>{usersInfos.email}</span>
           </p>
           <p>
             Adresse postal: <span>{usersInfos.address}</span>
@@ -73,26 +75,6 @@ export default function Profil() {
             Modifier mon profil
           </NavLink>
         </div>
-        {/* <div className="client-content sectionContainer">
-          <p>
-            Nom: <span>{clientInfos.name}</span>
-          </p>
-          <p>
-            Prenom: <span>{clientInfos.lastname}</span>
-          </p>
-          <p>
-            Mail: <span>{clientInfos.mail}</span>
-          </p>
-          <p>
-            Adresse postal: <span>{clientInfos.address}</span>
-          </p>
-          <p>
-            Téléphone: <span>{clientInfos.tel}</span>
-          </p>
-          <NavLink to="./info" className="edit-profil">
-            Modifier mon profil
-          </NavLink>
-        </div> */}
       </div>
       <div className="dog-container pad-top ">
         <div className="background"></div>

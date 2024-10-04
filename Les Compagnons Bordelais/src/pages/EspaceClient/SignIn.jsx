@@ -10,6 +10,7 @@ import "./style.scss";
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [dogName, setDogName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
@@ -28,8 +29,12 @@ export default function SignIn() {
     setPassword(e.target.value);
   };
 
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPassword(event.target.value);
+  const handleConfirmPasswordChange = (e) => {
+    setConfirmPassword(e.target.value);
+  };
+
+  const handleDogNameChange = (e) => {
+    setDogName(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -72,20 +77,22 @@ export default function SignIn() {
           {
             email,
             password,
+            dogName,
           }
         );
         const newClientId = response.data.clientId;
         console.log(newClientId);
         setClientId(newClientId);
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           console.log("Inscription réussie front");
           const res = await axios.post("http://localhost:5000/api/login", {
             email,
             password,
+            dogName,
           });
-          if (res.status === 201) {
-            navigate("/espace-client/profil");
+          if (res.status === 200) {
+            navigate(`/espace-client/profil/${newClientId}`);
           }
         } else {
           console.log(response);
@@ -132,6 +139,22 @@ export default function SignIn() {
           id="confirmPassword"
           value={confirmPassword} // attention ! il s'affiche dans l'inspecteur
           onChange={handleConfirmPasswordChange}
+        />
+        <label htmlFor="dogName">
+          Nom de votre chien:
+          <p>
+            <i>
+              * Si vous en possedez plusieurs vous pourrez les ajouter par la
+              suite{" "}
+            </i>
+          </p>
+        </label>
+        <input
+          className="input"
+          type="text"
+          id="dogName"
+          value={dogName}
+          onChange={handleDogNameChange}
         />
 
         <button type="submit" className="button">

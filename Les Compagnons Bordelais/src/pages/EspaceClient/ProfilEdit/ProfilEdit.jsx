@@ -48,6 +48,7 @@ export default function ProfilEdit() {
     }
 
     try {
+      console.log(editedClientInfos);
       const response = await axios.patch(
         `http://localhost:5000/api/infos-client/${userId}`,
         editedClientInfos,
@@ -59,8 +60,7 @@ export default function ProfilEdit() {
       );
       if (response.status === 200) {
         console.log("Modification réussie");
-        dispatch(updateClientInfo(response.data.updatedInfosClient));
-        // dispatch(updateClientInfo(response.data.updatedInfosClient)); // Mise à jour du store Redux
+        dispatch(updateClientInfo(response.data.updatedInfosClient)); // Mise à jour du store Redux
         navigate("/espace-client/profil"); // Redirige vers le profil après succès
       }
     } catch (error) {
