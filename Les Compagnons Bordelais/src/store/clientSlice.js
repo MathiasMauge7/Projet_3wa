@@ -3,25 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 const clientSlice = createSlice({
   name: "client",
   initialState: {
-    clientId: null,
+    client_id: "",
     name: "",
     lastname: "",
     mail: "",
     address: "",
     tel: "",
     photo: "",
-    dogs: [
-      {
-        lastname: "",
-        birthDate: null,
-        breed: "",
-        sex: "",
-        microchip: "",
-        tatoo: "",
-        medical: "",
-        img: "",
-      },
-    ],
   },
 
   reducers: {
@@ -34,12 +22,8 @@ const clientSlice = createSlice({
     updateClientId: (state, action) => {
       state.clientId = action.payload;
     },
-    updateClientDogs: (state, action) => {
-      state.dogs = action.payload; // Met à jour la propriété dogs
-    },
   },
 });
 
-export const { updateClientInfo, updateClientId, updateClientDogs } =
-  clientSlice.actions;
+export const { updateClientInfo, updateClientId } = clientSlice.actions;
 export default clientSlice.reducer;

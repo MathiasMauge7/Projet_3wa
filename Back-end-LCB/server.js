@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const cors = require("cors");
 const app = express();
+const { Types } = require("mongoose");
+const ObjectId = Types.ObjectId;
 
 const PORT = process.env.PORT || 5000;
 
@@ -40,12 +42,12 @@ const ClientSchema = new mongoose.Schema({
 const InfosDogSchema = new mongoose.Schema({
   client_id: String,
   lastname: String,
-  birthDate: Date,
+  birthDate: { type: Date },
   breed: String,
   sex: { type: String, possibleValue: ["Male", "Femelle"] },
   microchip: { type: String, possibleValue: ["Oui", "Non"] },
   tatoo: { type: String, possibleValue: ["Oui", "Non"] },
-  medical: String,
+  medical: { type: String, possibleValue: ["Oui", "Non"] },
   img: String,
 });
 
@@ -113,12 +115,29 @@ app.get("/api/users-infos/:userId", async (req, res) => {
   }
 });
 
-app.get("/api/users-dog-infos/:userId", async (req, res) => {
+app.get("/api/user-dog-infos/:userId", async (req, res) => {
   try {
     const userId = req.params.userId;
-    const usersDogInfos = await InfosDog.findOne({ client_id: userId });
+    const userDogInfos = await InfosDog.find({ client_id: userId });
 
-    res.json(usersDogInfos);
+    console.log(userDogInfos);
+    res.json(userDogInfos);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/user-dog-infos/:userId/:dogName", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const dogName = req.params.dogName;
+    const userDogInfos = await InfosDog.findOne({
+      client_id: userId,
+      lastname: dogName,
+    });
+
+    console.log(userDogInfos);
+    res.json(userDogInfos);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -133,34 +152,84 @@ app.get("/api/formulaire-contact", async (req, res) => {
   }
 });
 
-app.patch("/api/infos-client/:userId", async (req, res) => {
-  const userId = req.params.userId; // Récupère l'ID du client dans l'URL
-  const updatedData = req.body; // Données mises à jour envoyées par le client
+app.patch("/api/infos-dog/:dogId", async (req, res) => {
+  const dogIdString = req.params.dogId;
+  const updatedData = req.body;
+
+  // Vérification de la validité de l'ObjectId
+  if (!mongoose.Types.ObjectId.isValid(dogIdString)) {
+    return res.status(400).json({ msg: "dogId invalide" });
+  }
+
+  const dogId = new mongoose.Types.ObjectId(dogIdString);
+
+  console.log("ID du chien :", dogId);
+  console.log("Données de mise à jour :", updatedData);
 
   try {
-    if (!userId) {
-      return res.status(400).json({ msg: "userId requis" });
+    // Vérifier que des données de mise à jour existent
+    if (!updatedData || Object.keys(updatedData).length === 0) {
+      return res.status(400).json({ msg: "Données de mise à jour requises" });
     }
 
-    // Mise à jour des informations du client (y compris la liste des chiens)
+    // Mise à jour des informations du chien
+    const updatedInfosDog = await InfosDog.findByIdAndUpdate(
+      dogId,
+      updatedData,
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedInfosDog) {
+      return res.status(404).json({ msg: "Chien non trouvé" });
+    }
+
+    // Réponse avec les informations mises à jour
+    res.status(200).json(updatedInfosDog);
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du chien :", error);
+    res.status(500).json({
+      msg: "Erreur lors de la mise à jour du chien",
+      error: error.message,
+    });
+  }
+});
+
+app.patch("/api/infos-client/:userId", async (req, res) => {
+  const userIdString = req.params.userId;
+  const updatedData = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(userIdString)) {
+    return res.status(400).json({ msg: "userId invalide" });
+  }
+
+  const userId = new mongoose.Types.ObjectId(userIdString);
+
+  console.log("ID utilisateur :", userId);
+  console.log("Données de mise à jour :", updatedData);
+
+  try {
+    // Vérifier que les données de mise à jour ne sont pas vides
+    if (!updatedData || Object.keys(updatedData).length === 0) {
+      return res.status(400).json({ msg: "Données de mise à jour requises" });
+    }
+
     const updatedInfosClient = await InfosClient.findByIdAndUpdate(
       userId,
-      updatedData, // Données envoyées pour la mise à jour
+      updatedData,
       { new: true, runValidators: true } // Retourne l'objet mis à jour et applique les validateurs
     );
 
     if (!updatedInfosClient) {
-      return res.status(404).json({ msg: "Client introuvable" });
+      return res.status(404).json({ msg: "Client non trouvé" });
     }
 
-    // Répond avec l'objet mis à jour
-    res.status(200).json({
-      msg: "Mise à jour des informations client réussie",
-      updatedInfosClient,
-    });
+    res.status(200).json(updatedInfosClient);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Erreur serveur", error });
+    res.status(500).json({
+      msg: "Erreur lors de la mise à jour du client",
+      error: error.message,
+    });
   }
 });
 
@@ -202,6 +271,41 @@ app.delete("/api/formulaire-contact/:formulaireId", async (req, res) => {
     res
       .status(500)
       .json({ message: "Erreur lors de la suppression de l'élément." });
+  }
+});
+
+app.post("/api/add-dog", async (req, res) => {
+  console.log(req.body);
+  const {
+    client_id,
+    lastname,
+    birthDate,
+    breed,
+    sex,
+    microchip,
+    tatoo,
+    medical,
+    img,
+  } = req.body;
+
+  try {
+    const newDog = await InfosDog.create({
+      client_id: client_id, // Lier le chien au client
+      lastname: lastname || "",
+      birthDate: birthDate || "",
+      breed: breed || "",
+      sex: sex || "",
+      microchip: microchip || "",
+      tatoo: tatoo || "",
+      medical: medical || "",
+      img: img || "",
+    });
+    res.status(200).json({ message: "Ajout du nouveau chien réussi", newDog });
+  } catch (error) {
+    console.log(error);
+    res
+      .status(500)
+      .json({ message: "Une error est survenue durant l'inscription" });
   }
 });
 

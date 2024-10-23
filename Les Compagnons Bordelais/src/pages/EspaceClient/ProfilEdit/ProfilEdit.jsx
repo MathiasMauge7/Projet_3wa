@@ -7,28 +7,32 @@ import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 import axios from "axios";
 
 export default function ProfilEdit() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { userId } = useParams(); // Récupère l'ID de l'utilisateur depuis l'URL
-  console.log("UserId from params:", userId); // Vérifie la valeur de userId
   const clientInfos = useSelector((state) => state.client);
+
   const [editedClientInfos, setEditedClientInfos] = useState({
     ...clientInfos,
   });
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/users-infos/${userId}`)
-      .then((response) => {
-        setEditedClientInfos(response.data);
-      })
-      .catch((error) => {
-        console.log(
-          "Erreur lors de la récupération des informations de l'utilisateur :",
-          error
-        );
-      });
-  }, [userId]); // Utilisation de userId pour récupérer les informations
+    try {
+      axios
+        .get(`http://localhost:5000/api/users-infos/${userId}`)
+        .then((response) => {
+          const data = response.data;
+
+          dispatch(updateClientInfo(data));
+          setEditedClientInfos(response.data);
+        });
+    } catch (error) {
+      console.log(
+        "Erreur lors de la récupération des informations de l'utilisateur :",
+        error
+      );
+    }
+  }, [dispatch, userId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,7 +44,6 @@ export default function ProfilEdit() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(editedClientInfos);
 
     if (!userId) {
       console.error("User ID est undefined");
@@ -48,9 +51,8 @@ export default function ProfilEdit() {
     }
 
     try {
-      console.log(editedClientInfos);
       const response = await axios.patch(
-        `http://localhost:5000/api/infos-client/${userId}`,
+        `http://localhost:5000/api/infos-client/${clientInfos._id}`,
         editedClientInfos,
         {
           headers: {
@@ -58,15 +60,16 @@ export default function ProfilEdit() {
           },
         }
       );
+      console.log("Réponse de la mise à jour :", response.data);
       if (response.status === 200) {
-        console.log("Modification réussie");
         dispatch(updateClientInfo(response.data.updatedInfosClient)); // Mise à jour du store Redux
         navigate("/espace-client/profil"); // Redirige vers le profil après succès
+        console.log("Modification réussie");
       }
     } catch (error) {
-      console.log(
-        "Erreur lors de la modifications des informations du profil client",
-        error
+      console.error(
+        "Erreur lors de la requête PATCH :",
+        error.response ? error.response.data : error.message
       );
     }
   };
@@ -98,7 +101,7 @@ export default function ProfilEdit() {
             className="input"
             type="text"
             name="mail"
-            value={editedClientInfos.mail || ""}
+            value={editedClientInfos.email || ""}
             onChange={handleInputChange}
           />
           <label>Adresse postal:</label>

@@ -1,56 +1,41 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { updateDogInfo } from "../../../store/dogSlice";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import "./DogProfilEdit.scss";
-import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
 import moment from "moment";
+import ScroolToTheTop from "../../../component/ScrollToTheTop/ScroolToTheTop";
+import "./DogProfilCreate.scss";
 
-export default function DogProfilEdit() {
-  const dispatch = useDispatch();
+export default function DogProfilCreate() {
   const navigate = useNavigate();
-  const { userId, dogName } = useParams();
-  const dogInfos = useSelector((state) => state.dog);
+  const { userId } = useParams();
 
   const [editedDogInfos, setEditedDogInfos] = useState({
-    ...dogInfos,
+    client_id: userId,
+    lastname: "",
+    birthDate: moment().format("DD-MM-YYYY"),
+    breed: "",
+    sex: "",
+    tatoo: "",
+    microchip: "",
+    medical: "",
+    img: "",
   });
 
-  useEffect(() => {
-    try {
-      axios
-        .get(`http://localhost:5000/api/user-dog-infos/${userId}/${dogName}`)
-        .then((response) => {
-          const data = response.data;
-
-          dispatch(updateDogInfo(data));
-          setEditedDogInfos(data);
-        });
-    } catch (error) {
-      console.error("Erreur lors de la requete:", error);
-    }
-  }, [dispatch, userId]);
-
+  // Mettre à jour les informations en fonction des champs modifiés
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setEditedDogInfos((prevInfos) => ({
       ...prevInfos,
-      [name]: value || "",
+      [name]: value, // Met à jour la propriété correspondante
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!dogInfos._id) {
-      console.error("dogInfos._id est undefined");
-      return;
-    }
-
     try {
-      const response = await axios.patch(
-        `http://localhost:5000/api/infos-dog/${dogInfos._id}`,
+      const response = await axios.post(
+        `http://localhost:5000/api/add-dog/`,
         editedDogInfos,
         {
           headers: {
@@ -58,17 +43,13 @@ export default function DogProfilEdit() {
           },
         }
       );
-      console.log("Réponse de la mise à jour :", response.data);
+      console.log("Réponse de l'ajout:", response.data);
       if (response.status === 200) {
-        dispatch(updateDogInfo(response.data.createDogInfos));
         navigate("/espace-client/profil");
-        console.log("modificaion reussi");
+        console.log("Ajout reussi");
       }
     } catch (error) {
-      console.log(
-        "Erreur lors de la modification des informations du chien",
-        error
-      );
+      console.log("Erreur lors de l'ajout du nouveau chien", error);
     }
   };
 
@@ -83,7 +64,6 @@ export default function DogProfilEdit() {
             className="input"
             type="text"
             name="lastname"
-            value={editedDogInfos.lastname}
             onChange={handleInputChange}
           />
           <label>Date de naissance:</label>
@@ -91,7 +71,7 @@ export default function DogProfilEdit() {
             className="input"
             type="date"
             name="birthDate"
-            value={moment(editedDogInfos.birthDate).format("DD-MM-YYYY")}
+            value={editedDogInfos.birthDate}
             onChange={handleInputChange}
           />
           <label>Race:</label>
@@ -99,7 +79,6 @@ export default function DogProfilEdit() {
             className="input"
             type="text"
             name="breed"
-            value={editedDogInfos.breed}
             onChange={handleInputChange}
           />
           <label>Sexe:</label>
@@ -109,7 +88,6 @@ export default function DogProfilEdit() {
               id="male"
               name="sex"
               value="Male"
-              checked={editedDogInfos.sex === "Male"}
               onChange={handleInputChange}
             />
             <label htmlFor="male">Mâle</label>
@@ -119,7 +97,6 @@ export default function DogProfilEdit() {
               id="female"
               name="sex"
               value="Femelle"
-              checked={editedDogInfos.sex === "Femelle"}
               onChange={handleInputChange}
             />
             <label htmlFor="female">Femelle</label>
@@ -130,7 +107,6 @@ export default function DogProfilEdit() {
               type="radio"
               name="tatoo"
               value="Oui"
-              checked={editedDogInfos.tatoo === "Oui"}
               onChange={handleInputChange}
             />
             <label htmlFor="oui">Oui</label>
@@ -139,7 +115,6 @@ export default function DogProfilEdit() {
               type="radio"
               name="tatoo"
               value="Non"
-              checked={editedDogInfos.tatoo === "Non"}
               onChange={handleInputChange}
             />
             <label htmlFor="non">Non</label>
@@ -150,7 +125,6 @@ export default function DogProfilEdit() {
               type="radio"
               name="microchip"
               value="Oui"
-              checked={editedDogInfos.microchip === "Oui"}
               onChange={handleInputChange}
             />
             <label htmlFor="oui">Oui</label>
@@ -158,7 +132,6 @@ export default function DogProfilEdit() {
               type="radio"
               name="microchip"
               value="Non"
-              checked={editedDogInfos.microchip === "Non"}
               onChange={handleInputChange}
             />
             <label htmlFor="non">Non</label>
@@ -169,7 +142,6 @@ export default function DogProfilEdit() {
               type="radio"
               name="medical"
               value="Oui"
-              checked={editedDogInfos.medical === "Oui"}
               onChange={handleInputChange}
             />
             <label htmlFor="oui">Oui</label>
@@ -177,13 +149,12 @@ export default function DogProfilEdit() {
               type="radio"
               name="medical"
               value="Non"
-              checked={editedDogInfos.medical === "Non"}
               onChange={handleInputChange}
             />
             <label htmlFor="non">Non</label>
           </div>
           <button type="submit" className="button">
-            MODIFIER
+            AJOUTER
           </button>
         </form>
       </div>

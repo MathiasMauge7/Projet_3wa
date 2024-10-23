@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
 const dogSlice = createSlice({
   name: "dog",
   initialState: {
-    lastname: "test",
-    birthDate: "2023-02-15",
+    lastname: "",
+    birthDate: moment().format("DD-MM-YYYY"),
     breed: "",
-    sex: "Male",
-    tatoo: "Non",
-    microchip: "Oui",
+    sex: "",
+    tatoo: "",
+    microchip: "",
     medical: "",
     img: "",
   },

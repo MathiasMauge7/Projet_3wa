@@ -14,6 +14,7 @@ import Login from "./pages/EspaceClient/Login";
 import Profil from "./pages/EspaceClient/Profil/Profil";
 import ProfilEdit from "./pages/EspaceClient/ProfilEdit/ProfilEdit";
 import DogProfilEdit from "./pages/EspaceClient/DogProfilEdit/dogProfilEdit";
+import DogProfilCreate from "./pages/EspaceClient/DogProfilCreate/DogProfilCreate";
 import Dashbord from "./pages/Dashbord/Dashbord";
 import Booking from "./pages/Booking/Booking";
 
@@ -54,10 +55,20 @@ function App() {
           }
         ></Route>
         <Route
-          path="/espace-client/profil/:userId/chiens-info"
+          path="/espace-client/profil/:userId/:dogName"
           element={
             isAuthenticated ? (
               <DogProfilEdit />
+            ) : (
+              <Navigate to={"/espace-client/connexion"} replace />
+            )
+          }
+        ></Route>
+        <Route
+          path="/espace-client/profil/:userId/nouveau-chien"
+          element={
+            isAuthenticated ? (
+              <DogProfilCreate />
             ) : (
               <Navigate to={"/espace-client/connexion"} replace />
             )
